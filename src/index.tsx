@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 
 const Setting = {
-  offersCount: 312,
+  offersCount: 5,
 } as const;
 
 const root = ReactDOM.createRoot(
