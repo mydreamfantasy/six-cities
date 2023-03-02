@@ -1,4 +1,4 @@
-import Home from "../../pages/Home";
+import Home from "../../pages/home/home";
 import React from "react";
 
 type AppScreenProps = {
