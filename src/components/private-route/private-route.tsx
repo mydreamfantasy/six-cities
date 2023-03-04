@@ -7,14 +7,13 @@ type PrivateRouteProps = {
   children: JSX.Element;
 };
 
-const PrivateRoute: React.FC<PrivateRouteProps> = (props) => {
-  const { authorizationStatus, children } = props;
-
-  return authorizationStatus === AuthorizationStatus.Auth ? (
-    children
-  ) : (
-    <Navigate to={AppRoute.Login} />
-  );
-};
+const PrivateRoute: React.FC<PrivateRouteProps> = ({
+  authorizationStatus,
+  children,
+}) => authorizationStatus === AuthorizationStatus.Auth ? (
+  children
+) : (
+  <Navigate to={AppRoute.Login} />
+);
 
 export default PrivateRoute;
