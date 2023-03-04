@@ -1,5 +1,17 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
-const NotFound: React.FC = () => <div>Упс, ничего не найдено</div>;
+import Logo from '../../components/logo/logo';
+import NotFoundBlock from '../../components/not-found-block/not-found-block';
+
+const NotFound: React.FC = () => (
+  <>
+    <Helmet>
+      <title>Six Cities. Not Found</title>
+    </Helmet>
+    <Logo />
+    <NotFoundBlock />
+  </>
+);
 
 export default NotFound;
