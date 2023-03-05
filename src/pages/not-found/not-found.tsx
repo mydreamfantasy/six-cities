@@ -1,9 +1,9 @@
-import React from "react";
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import styles from "./not-found.module.css";
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import styles from './not-found.module.css';
 
-import Logo from "../../components/logo/logo";
+import Logo from '../../components/logo/logo';
 
 const NotFound: React.FC = () => (
   <div className={styles.root}>

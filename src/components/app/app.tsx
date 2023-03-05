@@ -9,18 +9,20 @@ import Property from '../../pages/property/property';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
+import { Offers } from '../types/offers';
 
 type AppScreenProps = {
   offersCount: number;
+  offers: Offers[];
 };
 
-const App: React.FC<AppScreenProps> = ({ offersCount }) => (
+const App: React.FC<AppScreenProps> = ({ offersCount, offers }) => (
   <HelmetProvider>
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Home offersCount={offersCount} />}
+          element={<Home offersCount={offersCount} offers={offers} />}
         />
         <Route path={AppRoute.Login} element={<Login />} />
         <Route
