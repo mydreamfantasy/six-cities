@@ -1,6 +1,6 @@
-import { Offers } from '../components/types/offers';
+import { Offer } from '../types/offer';
 
-export const offers: Offers[] = [
+export const offers: Offer[] = [
   {
     bedrooms: 3,
     city: {
@@ -103,7 +103,7 @@ export const offers: Offers[] = [
     maxAdults: 1,
     previewImage: 'img/apartment-small-03.jpg',
     price: 70,
-    rating: 4.9,
+    rating: 3.9,
     title: 'Forever Alone',
     type: 'apartment',
   },

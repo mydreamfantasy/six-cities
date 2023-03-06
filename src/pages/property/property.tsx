@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
+import Map from '../../components/map/map';
 
 const Property: React.FC = () => (
   <div className="page">
@@ -11,7 +12,7 @@ const Property: React.FC = () => (
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo />
+            <Logo type="header" />
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
@@ -322,7 +323,7 @@ const Property: React.FC = () => (
             </section>
           </div>
         </div>
-        <section className="property__map map"></section>
+        <Map className="property__map" />
       </section>
       <div className="container">
         <section className="near-places places">

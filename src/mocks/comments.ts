@@ -1,6 +1,6 @@
-import { Comments } from '../components/types/commets';
+import { Comment } from '../types/comment';
 
-export const comments: Comments[] = [
+export const comments: Comment[] = [
   {
     comment:
       'sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',

@@ -9,11 +9,11 @@ import Property from '../../pages/property/property';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
-import { Offers } from '../types/offers';
+import { Offer } from '../../types/offer';
 
 type AppScreenProps = {
   offersCount: number;
-  offers: Offers[];
+  offers: Offer[];
 };
 
 const App: React.FC<AppScreenProps> = ({ offersCount, offers }) => (

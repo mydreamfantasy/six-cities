@@ -1,78 +1,58 @@
 import React from 'react';
+import { getRatingColor } from '../../utils/utils';
+import Badge from '../badge/badge';
+import Bookmark from '../bookmark/bookmark';
+import { Offer } from '../../types/offer';
 
 type CardProps = {
-  price: number;
-  title: string;
-  type: string;
-  previewImage: string;
-  isPremium: boolean;
+  offer: Offer;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 };
 
-const Card: React.FC<CardProps> = ({
-  price,
-  previewImage,
-  title,
-  type,
-  isPremium,
-  onMouseEnter,
-  onMouseLeave,
-}) => (
-  <article
-    className="cities__card place-card"
-    onMouseOver={() => {
-      if (onMouseEnter) {
-        onMouseEnter();
-      }
-    }}
-    onMouseLeave={() => {
-      if (onMouseLeave) {
-        onMouseLeave();
-      }
-    }}
-  >
-    {isPremium && (
-      <div className="place-card__mark">
-        <span>Premium</span>
+const Card: React.FC<CardProps> = ({ offer, onMouseEnter, onMouseLeave }) => {
+  const { price, previewImage, title, type, isPremium, rating } = offer;
+  return (
+    <article
+      className="cities__card place-card"
+      onMouseOver={() => onMouseEnter?.()}
+      onMouseLeave={() => onMouseLeave?.()}
+    >
+      {isPremium && <Badge />}
+      <div className="cities__image-wrapper place-card__image-wrapper">
+        <a href="#">
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width="260"
+            height="200"
+            alt={title}
+          />
+        </a>
       </div>
-    )}
-    <div className="cities__image-wrapper place-card__image-wrapper">
-      <a href="#">
-        <img
-          className="place-card__image"
-          src={previewImage}
-          width="260"
-          height="200"
-          alt="Place image"
-        />
-      </a>
-    </div>
-    <div className="place-card__info">
-      <div className="place-card__price-wrapper">
-        <div className="place-card__price">
-          <b className="place-card__price-value">&euro;{price}</b>
-          <span className="place-card__price-text">&#47;&nbsp;night</span>
+      <div className="place-card__info">
+        <div className="place-card__price-wrapper">
+          <div className="place-card__price">
+            <b className="place-card__price-value">&euro;{price}</b>
+            <span className="place-card__price-text">&#47;&nbsp;night</span>
+          </div>
+          <Bookmark />
         </div>
-        <button className="place-card__bookmark-button button" type="button">
-          <svg className="place-card__bookmark-icon" width="18" height="19">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">To bookmarks</span>
-        </button>
-      </div>
-      <div className="place-card__rating rating">
-        <div className="place-card__stars rating__stars">
-          <span style={{ width: '80%' }}></span>
-          <span className="visually-hidden">Rating</span>
+        <div className="place-card__rating rating">
+          <div className="place-card__stars rating__stars">
+            <span style={{ width: `${getRatingColor(rating)}%` }}></span>
+            <span className="visually-hidden">Rating</span>
+          </div>
         </div>
+        <h2 className="place-card__name">
+          <a href="#">{title}</a>
+        </h2>
+        <p className="place-card__type">
+          {type.replace(type[0], type[0].toUpperCase())}
+        </p>
       </div>
-      <h2 className="place-card__name">
-        <a href="#">{title}</a>
-      </h2>
-      <p className="place-card__type">{type}</p>
-    </div>
-  </article>
-);
+    </article>
+  );
+};
 
 export default Card;
