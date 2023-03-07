@@ -12,7 +12,7 @@ type HomeProps = {
 };
 
 const Home: React.FC<HomeProps> = ({ offersCount, offers }) => (
-  <Layout className="page--gray page--main">
+  <Layout className="page--gray page--main" hasNav>
     <Helmet>
       <title>Six Cities. Home</title>
     </Helmet>

@@ -1,35 +1,31 @@
 import React from 'react';
-import { getRatingColor } from '../../utils/utils';
+
 import Badge from '../badge/badge';
-import Bookmark from '../bookmark/bookmark';
 import { Offer } from '../../types/offer';
 import ImagePlace from '../image-place/image-place';
+import Bookmark from '../bookmark/bookmark';
+import { getRatingColor } from '../../utils/utils';
 
-type CardProps = {
+type FavoriteCardProps = {
   offer: Offer;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
 };
 
-const Card: React.FC<CardProps> = ({ offer, onMouseEnter, onMouseLeave }) => {
+const FavoriteCard: React.FC<FavoriteCardProps> = ({ offer }) => {
   const { price, previewImage, title, type, isPremium, rating } = offer;
+
   return (
-    <article
-      className="cities__card place-card"
-      onMouseOver={() => onMouseEnter?.()}
-      onMouseLeave={() => onMouseLeave?.()}
-    >
+    <article className="favorites__card place-card">
       {isPremium && <Badge />}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <ImagePlace previewImage={previewImage} title={title} type="home" />
+      <div className="favorites__image-wrapper place-card__image-wrapper">
+        <ImagePlace previewImage={previewImage} title={title} type="favorite" />
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <Bookmark className="" />
+          <Bookmark className="place-card__bookmark-button--active" />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -48,4 +44,4 @@ const Card: React.FC<CardProps> = ({ offer, onMouseEnter, onMouseLeave }) => {
   );
 };
 
-export default Card;
+export default FavoriteCard;

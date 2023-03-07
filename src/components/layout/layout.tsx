@@ -4,12 +4,13 @@ import cn from 'classnames';
 
 type LayoutProps = {
   className: string;
-  children: string | JSX.Element | JSX.Element[];
+  hasNav: boolean;
+  children: React.ReactNode;
 };
 
-const Layout: React.FC<LayoutProps> = ({ className, children }) => (
+const Layout: React.FC<LayoutProps> = ({ className, hasNav, children }) => (
   <div className={cn('page', className)}>
-    <Header className={className} />
+    <Header className={className} hasNav={hasNav} />
 
     {children}
   </div>

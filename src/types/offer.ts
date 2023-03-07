@@ -1,12 +1,14 @@
 import { User } from './user';
 import { Location } from './location';
 
+type City = {
+  location: Location;
+  name: string;
+};
+
 export type Offer = {
   bedrooms: number;
-  city: {
-    location: Location;
-    name: string;
-  };
+  city: City;
   description: string;
   goods: string[];
   host: User;
