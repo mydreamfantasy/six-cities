@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 
 type ImagePlaceProps = {
   previewImage: string;
   title: string;
+  id: number;
   type: 'favorite' | 'home';
 };
 
@@ -23,10 +24,16 @@ const ImagePlace: React.FC<ImagePlaceProps> = ({
   previewImage,
   title,
   type,
+  id,
 }) => {
   const size = sizes[type];
+
+  const link = generatePath(AppRoute.Property, {
+    id: `${id}`,
+  });
+
   return (
-    <Link to={AppRoute.Property}>
+    <Link to={link}>
       <img
         className="place-card__image"
         src={previewImage}

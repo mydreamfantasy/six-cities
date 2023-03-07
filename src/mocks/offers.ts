@@ -13,7 +13,7 @@ export const offers: Offer[] = [
     },
     description:
       'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    goods: ['Heating'],
+    goods: ['Heating', 'Coffee machine', 'Kitchen'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
@@ -51,7 +51,7 @@ export const offers: Offer[] = [
     },
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
-    goods: ['Heating', 'Hair dryer'],
+    goods: ['Heating', 'Hair dryer', 'Coffee machine', 'Kitchen'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
       id: 4,
@@ -59,7 +59,7 @@ export const offers: Offer[] = [
       name: 'Angelina',
     },
     id: 2,
-    images: ['/room.jpg'],
+    images: ['img/room.jpg'],
     isPremium: true,
     location: {
       latitude: 52.35514938496332,
@@ -85,7 +85,7 @@ export const offers: Offer[] = [
     },
     description:
       'ADuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-    goods: ['Cooker', 'Hair dryer', 'Fireplace'],
+    goods: ['Cooker', 'Hair dryer', 'Fireplace', 'Cabel TV'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
@@ -119,7 +119,7 @@ export const offers: Offer[] = [
     },
     description:
       'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis',
-    goods: ['Towels', 'Napkins', 'Lights'],
+    goods: ['Towels', 'Napkins', 'Lights', 'Coffee machine', 'Kitchen'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
