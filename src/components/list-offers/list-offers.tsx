@@ -15,6 +15,7 @@ const ListOffers: React.FC<ListOffersProps> = ({ offers }) => {
         <Card
           key={offer.id}
           offer={offer}
+          cardType="home"
           onMouseEnter={() => setIsShown(offer.id)}
           onMouseLeave={() => setIsShown(null)}
         />

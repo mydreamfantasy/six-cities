@@ -8,13 +8,11 @@ const ReviewForm: React.FC = () => {
     review: '',
   });
 
-  const onChangeData = (
+  const handleChangeData = (
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setData({ ...data, [evt.target.name]: evt.target.value });
   };
-
-  // console.log(data);
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -27,12 +25,12 @@ const ReviewForm: React.FC = () => {
             key={star.value}
             value={star.value}
             title={star.title}
-            onChangeData={onChangeData}
+            handleChangeData={handleChangeData}
           />
         ))}
       </div>
       <textarea
-        onChange={onChangeData}
+        onChange={handleChangeData}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"

@@ -11,31 +11,60 @@ type CardProps = {
   offer: Offer;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  cardType: 'favorite' | 'home' | 'property';
 };
 
-const Card: React.FC<CardProps> = ({ offer, onMouseEnter, onMouseLeave }) => {
+const types = {
+  home: {
+    article: 'cities__card place-card',
+    image: 'cities__image-wrapper place-card__image-wrapper',
+    cardInfo: 'place-card__info',
+  },
+
+  favorite: {
+    article: 'favorites__card place-card',
+    image: 'favorites__image-wrapper place-card__image-wrapper',
+    cardInfo: 'favorites__card-info place-card__info',
+  },
+
+  property: {
+    article: 'near-places__card place-card',
+    image: 'near-places__image-wrapper place-card__image-wrapper',
+    cardInfo: 'place-card__info',
+  },
+};
+
+const Card: React.FC<CardProps> = ({
+  offer,
+  onMouseEnter,
+  onMouseLeave,
+  cardType,
+}) => {
   const { price, previewImage, title, type, isPremium, rating, id } = offer;
 
   const link = generatePath(AppRoute.Property, {
     id: `${id}`,
   });
 
+  const { article, image, cardInfo } = types[cardType];
+  const typePlace = type.replace(type[0], type[0].toUpperCase());
+
   return (
     <article
-      className="cities__card place-card"
+      className={article}
       onMouseOver={() => onMouseEnter?.()}
       onMouseLeave={() => onMouseLeave?.()}
     >
       {isPremium && <Badge className="place-card__mark" />}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={image}>
         <ImagePlace
           previewImage={previewImage}
           title={title}
-          type="home"
+          type={cardType}
           id={id}
         />
       </div>
-      <div className="place-card__info">
+      <div className={cardInfo}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -56,9 +85,7 @@ const Card: React.FC<CardProps> = ({ offer, onMouseEnter, onMouseLeave }) => {
         <h2 className="place-card__name">
           <Link to={link}>{title}</Link>
         </h2>
-        <p className="place-card__type">
-          {type.replace(type[0], type[0].toUpperCase())}
-        </p>
+        <p className="place-card__type">{typePlace}</p>
       </div>
     </article>
   );

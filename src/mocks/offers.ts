@@ -141,4 +141,38 @@ export const offers: Offer[] = [
     title: 'Big Bang Family',
     type: 'apartment',
   },
+  {
+    bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Paris',
+    },
+    description:
+      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis',
+    goods: ['Towels', 'Napkins', 'Lights', 'Coffee machine', 'Kitchen'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 3,
+      isPro: false,
+      name: 'Angelina',
+    },
+    id: 5,
+    images: ['img/apartment-01.jpg', 'img/apartment-02.jpg'],
+    isPremium: true,
+    location: {
+      latitude: 52.35514938496376,
+      longitude: 4.673877537499953,
+      zoom: 8,
+    },
+    maxAdults: 3,
+    previewImage: 'img/apartment-small-03.jpg',
+    price: 300,
+    rating: 5.0,
+    title: 'Big Bang Family',
+    type: 'apartment',
+  },
 ];

@@ -4,11 +4,10 @@ import Logo from '../logo/logo';
 import { AppRoute } from '../../const/const';
 
 type HeaderProps = {
-  className: string;
-  hasNav: boolean;
+  hasNav?: boolean;
 };
 
-const Header: React.FC<HeaderProps> = ({ className, hasNav }) => (
+const Header: React.FC<HeaderProps> = ({ hasNav = true }) => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">
@@ -31,9 +30,9 @@ const Header: React.FC<HeaderProps> = ({ className, hasNav }) => (
                 </Link>
               </li>
               <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
+                <Link className="header__nav-link" to={AppRoute.Login}>
                   <span className="header__signout">Sign out</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
