@@ -14,7 +14,7 @@ interface CitiesInterface {
 }
 
 const Favorites: React.FC<FavoritesProps> = ({ offers }) => {
-  const cities = offers.reduce<CitiesInterface>((acc, offer) => {
+  const groupedOffers = offers.reduce<CitiesInterface>((acc, offer) => {
     if (!acc[offer.city.name]) {
       acc[offer.city.name] = [];
     }
@@ -30,22 +30,18 @@ const Favorites: React.FC<FavoritesProps> = ({ offers }) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.entries(cities).map((city) => (
-                <li className="favorites__locations-items" key={city[0]}>
+              {Object.entries(groupedOffers).map(([name, cards]) => (
+                <li className="favorites__locations-items" key={name}>
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
                       <a className="locations__item-link" href="#">
-                        <span>{city[0]}</span>
+                        <span>{name}</span>
                       </a>
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {city[1].map((offer) => (
-                      <Card
-                        key={offer.id}
-                        offer={offer}
-                        cardType="favorite"
-                      />
+                    {cards.map((offer) => (
+                      <Card key={offer.id} offer={offer} cardType="favorite" />
                     ))}
                   </div>
                 </li>
