@@ -1,16 +1,16 @@
-import React from "react";
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import styles from "./not-found.module.css";
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import styles from './not-found.module.css';
 
-import Logo from "../../components/logo/logo";
+import Logo from '../../components/logo/logo';
 
 const NotFound: React.FC = () => (
   <div className={styles.root}>
     <Helmet>
       <title>Six Cities. Not Found</title>
     </Helmet>
-    <Logo />
+    <Logo type="header" />
     <div className={styles.container}>
       <h1 className={styles.title}>
         <span>😕</span>

@@ -1,48 +1,17 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import Card from '../../components/card/card';
-import Logo from '../../components/logo/logo';
+import Layout from '../../components/layout/layout';
+import ListOffers from '../../components/list-offers/list-offers';
+import Map from '../../components/map/map';
+import Sort from '../../components/sort/sort';
+import { Offer } from '../../types/offer';
 
 type HomeProps = {
   offersCount: number;
+  offers: Offer[];
 };
 
-const Home: React.FC<HomeProps> = ({ offersCount }) => (
-  <div className="page page--gray page--main">
-    <Helmet>
-      <title>Six Cities. Home</title>
-    </Helmet>
-    <header className="header">
-      <div className="container">
-        <div className="header__wrapper">
-          <div className="header__left">
-            <Logo />
-          </div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <a
-                  className="header__nav-link header__nav-link--profile"
-                  href="#"
-                >
-                  <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                  <span className="header__user-name user__name">
-                    Oliver.conner@gmail.com
-                  </span>
-                  <span className="header__favorite-count">3</span>
-                </a>
-              </li>
-              <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
-                  <span className="header__signout">Sign out</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
-
+const Home: React.FC<HomeProps> = ({ offersCount, offers }) => (
+  <Layout className="page--gray page--main" pageTitle="Home">
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
@@ -88,45 +57,15 @@ const Home: React.FC<HomeProps> = ({ offersCount }) => (
             <b className="places__found">
               {offersCount} places to stay in Amsterdam
             </b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex={0}>
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom places__options--opened">
-                <li
-                  className="places__option places__option--active"
-                  tabIndex={0}
-                >
-                  Popular
-                </li>
-                <li className="places__option" tabIndex={0}>
-                  Price: low to high
-                </li>
-                <li className="places__option" tabIndex={0}>
-                  Price: high to low
-                </li>
-                <li className="places__option" tabIndex={0}>
-                  Top rated first
-                </li>
-              </ul>
-            </form>
-            <div className="cities__places-list places__list tabs__content">
-              {Array.from({ length: offersCount }, (_, I) => (
-                <Card key={I} />
-              ))}
-            </div>
+            <Sort />
+            <ListOffers offers={offers} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map className="cities__map" />
           </div>
         </div>
       </div>
     </main>
-  </div>
+  </Layout>
 );
-
 export default Home;
