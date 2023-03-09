@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
@@ -9,6 +8,7 @@ import Map from '../../components/map/map';
 import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
+import { COUNT_NEAR_OFFER } from '../../const/const';
 import { offers } from '../../mocks/offers';
 import { Offer } from '../../types/offer';
 import { getRatingColor } from '../../utils/utils';
@@ -26,10 +26,7 @@ const Property: React.FC = () => {
   }
 
   return (
-    <Layout>
-      <Helmet>
-        <title>Six Cities. Property</title>
-      </Helmet>
+    <Layout pageTitle="Property">
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -164,7 +161,7 @@ const Property: React.FC = () => {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {offers.slice(0, 3).map((offer) => (
+              {offers.slice(0, COUNT_NEAR_OFFER).map((offer) => (
                 <Card key={offer.id} offer={offer} cardType="property" />
               ))}
             </div>

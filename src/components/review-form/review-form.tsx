@@ -25,7 +25,7 @@ const ReviewForm: React.FC = () => {
             key={star.value}
             value={star.value}
             title={star.title}
-            handleChangeData={handleChangeData}
+            onChangeData={handleChangeData}
           />
         ))}
       </div>

@@ -14,7 +14,7 @@ type CardProps = {
   cardType: 'favorite' | 'home' | 'property';
 };
 
-const types = {
+const cardClassnames = {
   home: {
     article: 'cities__card place-card',
     image: 'cities__image-wrapper place-card__image-wrapper',
@@ -46,7 +46,7 @@ const Card: React.FC<CardProps> = ({
     id: `${id}`,
   });
 
-  const { article, image, cardInfo } = types[cardType];
+  const { article, image, cardInfo } = cardClassnames[cardType];
   const typePlace = type.replace(type[0], type[0].toUpperCase());
 
   return (

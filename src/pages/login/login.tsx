@@ -1,12 +1,9 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+
 import Layout from '../../components/layout/layout';
 
 const Login: React.FC = () => (
-  <Layout className="page--gray page--login" hasNav={false}>
-    <Helmet>
-      <title>Six Cities. Login</title>
-    </Helmet>
+  <Layout className="page--gray page--login" hasNav={false} pageTitle="Login">
     <main className="page__main page__main--login">
       <div className="page__login-container container">
         <section className="login">

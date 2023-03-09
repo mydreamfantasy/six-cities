@@ -18,3 +18,5 @@ export const REVIEW_STARS = [
   { value: 2, title: 'terribly' },
   { value: 1, title: 'badly' },
 ];
+
+export const COUNT_NEAR_OFFER = 3;

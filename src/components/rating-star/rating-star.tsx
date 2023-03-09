@@ -3,7 +3,7 @@ import React from 'react';
 type RatingStarProps = {
   value: number;
   title: string;
-  handleChangeData: (
+  onChangeData: (
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
 };
@@ -11,7 +11,7 @@ type RatingStarProps = {
 const RatingStar: React.FC<RatingStarProps> = ({
   value,
   title,
-  handleChangeData,
+  onChangeData,
 }) => (
   <>
     <input
@@ -20,7 +20,7 @@ const RatingStar: React.FC<RatingStarProps> = ({
       value={`${value}`}
       id={`${value}-stars`}
       type="radio"
-      onChange={handleChangeData}
+      onChange={onChangeData}
     />
     <label
       htmlFor={`${value}-stars`}

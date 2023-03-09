@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import Layout from '../../components/layout/layout';
 import ListOffers from '../../components/list-offers/list-offers';
 import Map from '../../components/map/map';
@@ -12,11 +11,7 @@ type HomeProps = {
 };
 
 const Home: React.FC<HomeProps> = ({ offersCount, offers }) => (
-  <Layout className="page--gray page--main">
-    <Helmet>
-      <title>Six Cities. Home</title>
-    </Helmet>
-
+  <Layout className="page--gray page--main" pageTitle="Home">
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
