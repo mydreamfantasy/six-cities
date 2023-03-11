@@ -32,7 +32,9 @@ const Home: React.FC<HomeProps> = ({ offersCount, offers }) => {
               <Sort />
               <ListOffers
                 offers={offers}
-                setSelectedOfferId={setSelectedOfferId}
+                onListItemHover={setSelectedOfferId}
+                cardType="home"
+                classNames="cities__places-list tabs__content"
               />
             </section>
             <div className="cities__right-section">

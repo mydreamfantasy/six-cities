@@ -11,6 +11,7 @@ type MapProps = {
   city: City;
   offers: Offer[];
   selectedOfferId: number | null;
+  count?: number;
 };
 
 const defaultCustomIcon = new Icon({
@@ -30,6 +31,7 @@ const Map: React.FC<MapProps> = ({
   city,
   offers,
   selectedOfferId,
+  count = offers.length,
 }) => {
   const mapRef = React.useRef(null);
 
@@ -37,7 +39,7 @@ const Map: React.FC<MapProps> = ({
 
   React.useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
+      offers.slice(0, count).forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
