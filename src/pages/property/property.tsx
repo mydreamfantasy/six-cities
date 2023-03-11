@@ -4,7 +4,7 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import Card from '../../components/card/card';
 import Layout from '../../components/layout/layout';
-import Map from '../../components/map/map';
+// import Map from '../../components/map/map';
 import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
@@ -153,7 +153,7 @@ const Property: React.FC = () => {
               </section>
             </div>
           </div>
-          <Map className="property__map" />
+          {/* <Map className="property__map" /> */}
         </section>
         <div className="container">
           <section className="near-places places">
