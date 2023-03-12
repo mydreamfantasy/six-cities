@@ -1,6 +1,6 @@
 import React from 'react';
 import { Review } from '../../types/review';
-import { getRatingColor, humanizeDate } from '../../utils/utils';
+import { getRatingColor, humanizeDate, humanizeTime } from '../../utils/utils';
 
 type ReviewItemProps = {
   review: Review;
@@ -8,8 +8,8 @@ type ReviewItemProps = {
 
 const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   const { comment, date, rating, user } = review;
-
   const { avatarUrl, isPro, name } = user;
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -33,7 +33,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
           </div>
         </div>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime="2019-04-24">
+        <time className="reviews__time" dateTime={humanizeTime(date)}>
           {humanizeDate(date)}
         </time>
       </div>

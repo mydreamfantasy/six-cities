@@ -4,11 +4,11 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import Layout from '../../components/layout/layout';
 import ListOffers from '../../components/list-offers/list-offers';
-import ListReviews from '../../components/list-reviews/list-reviews';
 import Map from '../../components/map/map';
 import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
+import ReviewList from '../../components/review-list/review-list';
 import { COUNT_NEAR_OFFER } from '../../const/const';
 import { CityLocation, offers } from '../../mocks/offers';
 import { reviews } from '../../mocks/reviews';
@@ -18,9 +18,6 @@ import { getRatingColor } from '../../utils/utils';
 const Property: React.FC = () => {
   const { id } = useParams();
   const [room, setRoom] = React.useState<Offer>();
-  const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
-    null
-  );
 
   React.useEffect(() => {
     setRoom(offers.find((offer) => offer.id === Number(id)));
@@ -123,7 +120,7 @@ const Property: React.FC = () => {
                   Reviews &middot;{' '}
                   <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <ListReviews />
+                <ReviewList />
                 <ReviewForm />
               </section>
             </div>
@@ -131,9 +128,7 @@ const Property: React.FC = () => {
           <Map
             className="property__map"
             city={CityLocation}
-            offers={offers}
-            selectedOfferId={selectedOfferId}
-            count={COUNT_NEAR_OFFER}
+            offers={offers.slice(0, COUNT_NEAR_OFFER)}
           />
         </section>
         <div className="container">
@@ -142,11 +137,9 @@ const Property: React.FC = () => {
               Other places in the neighbourhood
             </h2>
             <ListOffers
-              offers={offers}
-              onListItemHover={setSelectedOfferId}
+              offers={offers.slice(0, COUNT_NEAR_OFFER)}
               cardType="property"
               classNames="near-places__list"
-              count={COUNT_NEAR_OFFER}
             />
           </section>
         </div>

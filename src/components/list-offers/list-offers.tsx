@@ -8,7 +8,6 @@ type ListOffersProps = {
   offers: Offer[];
   cardType: 'favorite' | 'home' | 'property';
   classNames: string;
-  count?: number;
   onListItemHover?: (listItemName: number | null) => void;
 };
 
@@ -17,10 +16,9 @@ const ListOffers: React.FC<ListOffersProps> = ({
   onListItemHover,
   cardType,
   classNames,
-  count = offers.length,
 }) => (
   <div className={cn('places__list', classNames)}>
-    {offers.slice(0, count).map((offer) => (
+    {offers.map((offer) => (
       <Card
         key={offer.id}
         offer={offer}
