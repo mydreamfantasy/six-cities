@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import App from './components/app/app';
-// import { comments } from './mocks/comments';
 import { offers } from './mocks/offers';
-
-const Setting = {
-  offersCount: 5,
-} as const;
+import { store } from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-root.render(<App offersCount={Setting.offersCount} offers={offers} />);
+root.render(
+  <Provider store={store}>
+    <App offers={offers} />
+  </Provider>
+);
