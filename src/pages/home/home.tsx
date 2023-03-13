@@ -6,7 +6,7 @@ import Sort from '../../components/sort/sort';
 import { CityLocation } from '../../mocks/offers';
 import Cities from '../../components/cities/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity, updateOffers } from '../../store/action';
+import { changeCity } from '../../store/action';
 
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
@@ -18,8 +18,11 @@ const Home: React.FC = () => {
 
   const onChangeCity = (city: string) => {
     dispatch(changeCity(city));
-    dispatch(updateOffers());
   };
+
+  const currentOffers = offers.filter(
+    (offer) => offer.city.name === curentCity
+  );
 
   return (
     <Layout className="page--gray page--main" pageTitle="Home">
@@ -31,11 +34,11 @@ const Home: React.FC = () => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offers.length} places to stay in {curentCity}
+                {currentOffers.length} places to stay in {curentCity}
               </b>
               <Sort />
               <ListOffers
-                offers={offers}
+                offers={currentOffers}
                 onListItemHover={setSelectedOfferId}
                 cardType="home"
                 classNames="cities__places-list tabs__content"
@@ -45,7 +48,7 @@ const Home: React.FC = () => {
               <Map
                 className="cities__map"
                 city={CityLocation}
-                offers={offers}
+                offers={currentOffers}
                 selectedOfferId={selectedOfferId}
               />
             </div>
