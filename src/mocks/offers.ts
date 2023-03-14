@@ -88,7 +88,7 @@ export const offers: Offer[] = [
     goods: ['Cooker', 'Hair dryer', 'Fireplace', 'Cabel TV'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
-      id: 3,
+      id: 2,
       isPro: true,
       name: 'Angelina',
     },
@@ -122,7 +122,7 @@ export const offers: Offer[] = [
     goods: ['Towels', 'Napkins', 'Lights', 'Coffee machine', 'Kitchen'],
     host: {
       avatarUrl: 'img/avatar-angelina.jpg',
-      id: 3,
+      id: 6,
       isPro: false,
       name: 'Angelina',
     },
@@ -139,6 +139,74 @@ export const offers: Offer[] = [
     price: 300,
     rating: 5.0,
     title: 'Big Bang Family',
+    type: 'apartment',
+  },
+  {
+    bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Paris',
+    },
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
+    goods: ['Heating', 'Hair dryer', 'Coffee machine', 'Kitchen'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 8,
+      isPro: true,
+      name: 'Angelina',
+    },
+    id: 5,
+    images: ['img/room.jpg'],
+    isPremium: true,
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage: 'img/room.jpg',
+    price: 40,
+    rating: 2.7,
+    title: 'River Hotel',
+    type: 'hotel',
+  },
+  {
+    bedrooms: 1,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
+    description:
+      'ADuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+    goods: ['Cooker', 'Hair dryer', 'Fireplace', 'Cabel TV'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 1,
+      isPro: true,
+      name: 'Angelina',
+    },
+    id: 6,
+    images: ['img/studio-photos.jpg'],
+    isPremium: false,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 8,
+    },
+    maxAdults: 1,
+    previewImage: 'img/apartment-small-03.jpg',
+    price: 70,
+    rating: 3.9,
+    title: 'Forever Alone',
     type: 'apartment',
   },
 ];
