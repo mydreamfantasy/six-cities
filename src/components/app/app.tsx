@@ -9,31 +9,44 @@ import Property from '../../pages/property/property';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
-import { Offer } from '../../types/offer';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { useAppSelector } from '../../hooks';
 
-type AppScreenProps = {
-  offers: Offer[];
+const App: React.FC = () => {
+  const authorizationStatus = useAppSelector(
+    (state) => state.authorizationStatus
+  );
+  const isOffersDataLoading = useAppSelector(
+    (state) => state.isOffersDataLoading
+  );
+
+  if (
+    authorizationStatus === AuthorizationStatus.Unknown ||
+    isOffersDataLoading
+  ) {
+    return <LoadingScreen />;
+  }
+
+  return (
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path={AppRoute.Root} element={<Home />} />
+          <Route path={AppRoute.Login} element={<Login />} />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute authorizationStatus={authorizationStatus}>
+                <Favorites />
+              </PrivateRoute>
+            }
+          />
+          <Route path={AppRoute.Property} element={<Property />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
+  );
 };
-
-const App: React.FC<AppScreenProps> = ({ offers }) => (
-  <HelmetProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Root} element={<Home />} />
-        <Route path={AppRoute.Login} element={<Login />} />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <Favorites offers={offers} />
-            </PrivateRoute>
-          }
-        />
-        <Route path={AppRoute.Property} element={<Property />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </HelmetProvider>
-);
 
 export default App;

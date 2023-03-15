@@ -17,11 +17,11 @@ export const reviews: Review[] = [
   {
     comment: 'But I must explain to you how all this mistaken.',
     date: 'Mon Apr 10 2019 09:56:10 GMT+0300 (Москва, стандартное время)',
-    id: 1,
+    id: 2,
     rating: 5,
     user: {
       avatarUrl: 'img/avatar-angelina.jpg',
-      id: 1,
+      id: 2,
       isPro: true,
       name: 'Mayo.cub',
     },
@@ -34,7 +34,7 @@ export const reviews: Review[] = [
     rating: 3,
     user: {
       avatarUrl: 'img/avatar-angelina.jpg',
-      id: 1,
+      id: 4,
       isPro: false,
       name: 'Leo.corner',
     },
@@ -43,11 +43,11 @@ export const reviews: Review[] = [
     comment:
       'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     date: 'Fri Aug 23 2020 09:56:10 GMT+0300 (Москва, стандартное время)',
-    id: 1,
+    id: 3,
     rating: 5,
     user: {
       avatarUrl: 'img/avatar-angelina.jpg',
-      id: 1,
+      id: 3,
       isPro: true,
       name: 'Anna.kim',
     },
