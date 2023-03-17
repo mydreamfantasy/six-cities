@@ -29,8 +29,7 @@ const Property: React.FC = () => {
   }
   const cityLocation = room.city;
 
-  const nearOffers = offers.slice(0, COUNT_NEAR_OFFER);
-  nearOffers.push(room);
+  const nearOffers = [...offers.slice(0, COUNT_NEAR_OFFER), room];
 
   return (
     <Layout pageTitle="Property">

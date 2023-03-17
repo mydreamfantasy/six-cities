@@ -32,21 +32,20 @@ const Map: React.FC<MapProps> = ({
   selectedOfferId,
 }) => {
   const mapRef = React.useRef(null);
-
   const map = useMap(mapRef, city);
-  const [currentCity, setCurrentCity] = React.useState<City['name']>(city.name);
 
   React.useEffect(() => {
     if (map) {
-      if (currentCity !== city.name) {
-        map.flyTo(
-          [city.location.latitude, city.location.longitude],
-          city.location.zoom,
-          { animate: true, duration: 2 }
-        );
-        setCurrentCity(city.name);
-      }
+      map.flyTo(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom,
+        { animate: true, duration: 2 }
+      );
+    }
+  }, [map, city]);
 
+  React.useEffect(() => {
+    if (map) {
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,

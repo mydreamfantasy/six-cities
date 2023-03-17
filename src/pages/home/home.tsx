@@ -33,7 +33,7 @@ const Home: React.FC = () => {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities currentCity={currentCity} onChangeCity={onChangeCity} />
-        {currentOffers.length < 1 ? (
+        {currentOffers.length === 0 ? (
           <MainEmpty city={currentCity} />
         ) : (
           <div className="cities">
