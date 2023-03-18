@@ -4,16 +4,15 @@ import Layout from '../../components/layout/layout';
 import { Offer } from '../../types/offer';
 import Logo from '../../components/logo/logo';
 import Card from '../../components/card/card';
-
-type FavoritesProps = {
-  offers: Offer[];
-};
+import { useAppSelector } from '../../hooks';
 
 interface CitiesInterface {
   [key: string]: Offer[];
 }
 
-const Favorites: React.FC<FavoritesProps> = ({ offers }) => {
+const Favorites: React.FC = () => {
+  const offers = useAppSelector((state) => state.offers);
+
   const groupedOffers = offers.reduce<CitiesInterface>((acc, offer) => {
     if (!acc[offer.city.name]) {
       acc[offer.city.name] = [];

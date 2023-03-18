@@ -32,8 +32,17 @@ const Map: React.FC<MapProps> = ({
   selectedOfferId,
 }) => {
   const mapRef = React.useRef(null);
-
   const map = useMap(mapRef, city);
+
+  React.useEffect(() => {
+    if (map) {
+      map.flyTo(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom,
+        { animate: true, duration: 2 }
+      );
+    }
+  }, [map, city]);
 
   React.useEffect(() => {
     if (map) {
