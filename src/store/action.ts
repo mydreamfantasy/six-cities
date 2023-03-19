@@ -12,7 +12,7 @@ export const changeSort = createAction(
 );
 
 export const loadOffers = createAction(
-  'offers/loadOffers',
+  'data/loadOffers',
   (offers: Offer[]) => ({ payload: offers })
 );
 
