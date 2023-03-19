@@ -1,18 +1,37 @@
-import React from 'react';
+import React from "react";
 
-import Layout from '../../components/layout/layout';
-import { useAppDispatch } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
-import { AuthData } from '../../types/auth-data';
+import Layout from "../../components/layout/layout";
+import { useAppDispatch } from "../../hooks";
+import { loginAction } from "../../store/api-actions";
+import { AuthData } from "../../types/auth-data";
+import styles from "./login.module.css";
+
+type FieldProps = {
+  value: string;
+  error: boolean;
+  errorText: string;
+  regexp: RegExp;
+};
+
+type dataProps = {
+  [key: string]: FieldProps;
+};
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [data, setData] = React.useState({
+  const [data, setData] = React.useState<dataProps>({
     email: {
-      value: '',
+      value: "",
+      error: false,
+      errorText: "Please enter correct e-mail",
+      regexp: /^[^ ]+@[^ ]+\.[a-z]{2,3}$/,
     },
     password: {
-      value: '',
+      value: "",
+      error: false,
+      errorText:
+        "Please enter correct password, min one letter(eng) and one number",
+      regexp: /(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]{2,}/,
     },
   });
 
@@ -20,11 +39,14 @@ const Login: React.FC = () => {
     target,
   }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
+    const isValidField = data[name].regexp.test(value);
 
     setData({
       ...data,
       [name]: {
-        value: value,
+        ...data[name],
+        value,
+        error: !isValidField,
       },
     });
   };
@@ -56,6 +78,7 @@ const Login: React.FC = () => {
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
+
                 <input
                   className="login__input form__input"
                   type="email"
@@ -65,6 +88,9 @@ const Login: React.FC = () => {
                   onChange={handleLoginChange}
                   required
                 />
+                {data.email.error && (
+                  <span className={styles.error}>{data.email.errorText}</span>
+                )}
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
@@ -77,6 +103,11 @@ const Login: React.FC = () => {
                   value={data.password.value}
                   onChange={handleLoginChange}
                 />
+                {data.password.error && (
+                  <span className={styles.error}>
+                    {data.password.errorText}
+                  </span>
+                )}
               </div>
               <button
                 className="login__submit form__submit button"
