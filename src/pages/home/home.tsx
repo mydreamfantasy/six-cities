@@ -13,6 +13,7 @@ const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
     null
   );
+
   const dispatch = useAppDispatch();
   const currentCity = useAppSelector((state) => state.city);
   const offers = useAppSelector((state) => state.offers);

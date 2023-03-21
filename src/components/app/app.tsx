@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const authorizationStatus = useAppSelector(
     (state) => state.authorizationStatus
   );
+
   const isOffersDataLoading = useAppSelector(
     (state) => state.isOffersDataLoading
   );

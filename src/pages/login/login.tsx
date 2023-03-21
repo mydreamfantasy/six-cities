@@ -1,133 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import Layout from "../../components/layout/layout";
-import { useAppDispatch } from "../../hooks";
-import { loginAction } from "../../store/api-actions";
-import { AuthData } from "../../types/auth-data";
-import styles from "./login.module.css";
+import Layout from '../../components/layout/layout';
+import LoginForm from '../../components/login-form/login-form';
 
-type FieldProps = {
-  value: string;
-  error: boolean;
-  errorText: string;
-  regexp: RegExp;
-};
-
-type dataProps = {
-  [key: string]: FieldProps;
-};
-
-const Login: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [data, setData] = React.useState<dataProps>({
-    email: {
-      value: "",
-      error: false,
-      errorText: "Please enter correct e-mail",
-      regexp: /^[^ ]+@[^ ]+\.[a-z]{2,3}$/,
-    },
-    password: {
-      value: "",
-      error: false,
-      errorText:
-        "Please enter correct password, min one letter(eng) and one number",
-      regexp: /(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]{2,}/,
-    },
-  });
-
-  const handleLoginChange = ({
-    target,
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    const isValidField = data[name].regexp.test(value);
-
-    setData({
-      ...data,
-      [name]: {
-        ...data[name],
-        value,
-        error: !isValidField,
-      },
-    });
-  };
-
-  const onSubmit = (authData: AuthData) => {
-    dispatch(loginAction(authData));
-  };
-
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    onSubmit({
-      login: data.email.value,
-      password: data.password.value,
-    });
-  };
-
-  return (
-    <Layout className="page--gray page--login" hasNav={false} pageTitle="Login">
-      <main className="page__main page__main--login">
-        <div className="page__login-container container">
-          <section className="login">
-            <h1 className="login__title">Sign in</h1>
-            <form
-              className="login__form form"
-              action="#"
-              method="post"
-              onSubmit={handleSubmit}
-            >
-              <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
-
-                <input
-                  className="login__input form__input"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={data.email.value}
-                  onChange={handleLoginChange}
-                  required
-                />
-                {data.email.error && (
-                  <span className={styles.error}>{data.email.errorText}</span>
-                )}
-              </div>
-              <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
-                <input
-                  className="login__input form__input"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  value={data.password.value}
-                  onChange={handleLoginChange}
-                />
-                {data.password.error && (
-                  <span className={styles.error}>
-                    {data.password.errorText}
-                  </span>
-                )}
-              </div>
-              <button
-                className="login__submit form__submit button"
-                type="submit"
-              >
-                Sign in
-              </button>
-            </form>
-          </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
-            </div>
-          </section>
-        </div>
-      </main>
-    </Layout>
-  );
-};
+const Login: React.FC = () => (
+  <Layout className="page--gray page--login" hasNav={false} pageTitle="Login">
+    <main className="page__main page__main--login">
+      <LoginForm />
+    </main>
+  </Layout>
+);
 
 export default Login;
