@@ -12,6 +12,7 @@ const HeaderNav: React.FC = () => {
   const authorizationStatus = useAppSelector(
     (state) => state.authorizationStatus
   );
+
   return (
     <nav className="header__nav">
       {authorizationStatus === AuthorizationStatus.Auth ? (
@@ -24,16 +25,15 @@ const HeaderNav: React.FC = () => {
               <div className="header__avatar-wrapper user__avatar-wrapper">
                 <img
                   className="user__avatar"
-                  src={info ? info.avatarUrl : ''}
+                  src={info?.avatarUrl}
                   width="54"
                   height="54"
                   alt="User avatar"
                 />
               </div>
               <span className="header__user-name user__name">
-                {info ? info.email : ''}
+                {info?.email}
               </span>
-              <span className="header__favorite-count">3</span>
             </Link>
           </li>
           <li className="header__nav-item">

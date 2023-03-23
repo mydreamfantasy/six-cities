@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ hasNav = true }) => (
         <div className="header__left">
           <Logo type="header" />
         </div>
-        {hasNav && <HeaderNav />}
+        <nav className="header__nav">{hasNav && <HeaderNav />}</nav>
       </div>
     </div>
   </header>
