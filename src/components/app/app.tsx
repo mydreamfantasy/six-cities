@@ -1,4 +1,4 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -11,11 +11,14 @@ import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
+import HistoryRouter from '../history-router/history-router';
+import browserHistory from '../../browser-history';
 
 const App: React.FC = () => {
   const authorizationStatus = useAppSelector(
     (state) => state.authorizationStatus
   );
+
   const isOffersDataLoading = useAppSelector(
     (state) => state.isOffersDataLoading
   );
@@ -29,7 +32,7 @@ const App: React.FC = () => {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Root} element={<Home />} />
           <Route path={AppRoute.Login} element={<Login />} />
@@ -44,7 +47,7 @@ const App: React.FC = () => {
           <Route path={AppRoute.Property} element={<Property />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 };
