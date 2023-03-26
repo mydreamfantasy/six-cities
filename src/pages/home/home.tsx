@@ -5,19 +5,26 @@ import Map from '../../components/map/map';
 import Sort from '../../components/sort/sort';
 import Cities from '../../components/cities/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
 import { getSortingOffers } from '../../utils/utils';
 import MainEmpty from '../../components/main-empty/main-empty';
-
+import { getCity, getOffers, getSortType } from '../../store/offers/selectors';
+import { changeCity } from '../../store/offers/offers';
+import { fetchOffersAction } from '../../store/api-actions';
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
     null
   );
 
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const currentSortName = useAppSelector((state) => state.sortName);
+  const currentCity = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
+  const currentSortName = useAppSelector(getSortType);
+
+  React.useEffect(() => {
+    if (!offers.length) {
+      dispatch(fetchOffersAction());
+    }
+  }, [dispatch, offers]);
 
   const onChangeCity = (city: string) => {
     dispatch(changeCity(city));

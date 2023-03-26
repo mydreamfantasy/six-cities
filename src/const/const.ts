@@ -45,5 +45,18 @@ export enum APIRoute {
   Logout = '/logout',
 }
 
+export enum NameSpace {
+  Data = 'DATA',
+  Offers = 'OFFERS',
+  User = 'USER',
+}
+
+export enum FetchStatus {
+  Idle = 'Idle',
+  Loading = 'Loading',
+  Success = 'Success',
+  Failed = 'Failed',
+}
+
 export const COUNT_NEAR_OFFER = 3;
 export const TIMEOUT_SHOW_ERROR = 2000;
