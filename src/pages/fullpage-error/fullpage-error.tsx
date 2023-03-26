@@ -6,7 +6,7 @@ import Logo from '../../components/logo/logo';
 import { useAppDispatch } from '../../hooks';
 import { fetchOffersAction } from '../../store/api-actions';
 
-const FullpageError: React.FC = () => {
+const FullPageError: React.FC = () => {
   const dispatch = useAppDispatch();
   return (
     <div className={styles.root}>
@@ -36,4 +36,4 @@ const FullpageError: React.FC = () => {
   );
 };
 
-export default FullpageError;
+export default FullPageError;

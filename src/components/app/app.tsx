@@ -13,35 +13,19 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
-import {
-  getAuthCheckedStatus,
-  getAuthorizationStatus,
-} from '../../store/user-process/selectors';
-import { getOffersStatus } from '../../store/offers/selectors';
-import FullpageError from '../fullpage-error/fullpage-error';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { checkAuthAction } from '../../store/api-actions';
 
 const App: React.FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
-  const status = useAppSelector(getOffersStatus);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(checkAuthAction());
   }, [dispatch]);
 
-  if (!isAuthChecked || status.isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (status.isError) {
-    return <FullpageError />;
-  }
-
   return (
     <Suspense fallback={<LoadingScreen />}>
-      {' '}
       <HelmetProvider>
         <HistoryRouter history={browserHistory}>
           <Routes>

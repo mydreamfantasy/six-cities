@@ -7,9 +7,12 @@ import Cities from '../../components/cities/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getSortingOffers } from '../../utils/utils';
 import MainEmpty from '../../components/main-empty/main-empty';
-import { getCity, getOffers, getSortType } from '../../store/offers/selectors';
-import { changeCity } from '../../store/offers/offers';
+import { getOffers, getOffersStatus } from '../../store/offers/selectors';
 import { fetchOffersAction } from '../../store/api-actions';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
+import FullpageError from '../fullpage-error/fullpage-error';
+import { getCity, getSortType } from '../../store/app-slice/selectors';
+import { changeCity } from '../../store/app-slice/app';
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
     null
@@ -19,6 +22,7 @@ const Home: React.FC = () => {
   const currentCity = useAppSelector(getCity);
   const offers = useAppSelector(getOffers);
   const currentSortName = useAppSelector(getSortType);
+  const status = useAppSelector(getOffersStatus);
 
   React.useEffect(() => {
     if (!offers.length) {
@@ -35,6 +39,14 @@ const Home: React.FC = () => {
   );
 
   const sortingOffers = getSortingOffers(currentOffers, currentSortName);
+
+  if (status.isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (status.isError) {
+    return <FullpageError />;
+  }
 
   return (
     <Layout className="page--gray page--main" pageTitle="Home">
