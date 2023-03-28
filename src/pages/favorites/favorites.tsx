@@ -4,14 +4,24 @@ import Layout from '../../components/layout/layout';
 import { Offer } from '../../types/offer';
 import Logo from '../../components/logo/logo';
 import Card from '../../components/card/card';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/offers/selectors';
+import { fetchOffersAction } from '../../store/api-actions';
 
 interface CitiesInterface {
   [key: string]: Offer[];
 }
 
 const Favorites: React.FC = () => {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
+
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    if (!offers.length) {
+      dispatch(fetchOffersAction());
+    }
+  }, [dispatch, offers]);
 
   const groupedOffers = offers.reduce<CitiesInterface>((acc, offer) => {
     if (!acc[offer.city.name]) {

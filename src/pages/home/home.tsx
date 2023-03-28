@@ -5,19 +5,30 @@ import Map from '../../components/map/map';
 import Sort from '../../components/sort/sort';
 import Cities from '../../components/cities/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
 import { getSortingOffers } from '../../utils/utils';
 import MainEmpty from '../../components/main-empty/main-empty';
-
+import { getOffers, getOffersStatus } from '../../store/offers/selectors';
+import { fetchOffersAction } from '../../store/api-actions';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
+import FullpageError from '../fullpage-error/fullpage-error';
+import { getCity, getSortType } from '../../store/app-slice/selectors';
+import { changeCity } from '../../store/app-slice/app';
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
     null
   );
 
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const currentSortName = useAppSelector((state) => state.sortName);
+  const currentCity = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
+  const currentSortName = useAppSelector(getSortType);
+  const status = useAppSelector(getOffersStatus);
+
+  React.useEffect(() => {
+    if (!offers.length) {
+      dispatch(fetchOffersAction());
+    }
+  }, [dispatch, offers]);
 
   const onChangeCity = (city: string) => {
     dispatch(changeCity(city));
@@ -28,6 +39,14 @@ const Home: React.FC = () => {
   );
 
   const sortingOffers = getSortingOffers(currentOffers, currentSortName);
+
+  if (status.isLoading) {
+    return <LoadingScreen type="big" />;
+  }
+
+  if (status.isError) {
+    return <FullpageError />;
+  }
 
   return (
     <Layout className="page--gray page--main" pageTitle="Home">

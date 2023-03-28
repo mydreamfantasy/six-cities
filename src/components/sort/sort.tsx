@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import { SortingTypes } from '../../const/const';
 import { useAppDispatch } from '../../hooks';
-import { changeSort } from '../../store/action';
+import { changeSort } from '../../store/app-slice/app';
 
 type SortProps = {
   currentSortName: string;

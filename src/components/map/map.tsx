@@ -66,7 +66,7 @@ const Map: React.FC<MapProps> = ({
   return (
     <section
       className={cn('map', className)}
-      style={{ height: '562px' }}
+      style={{ height: '100%' }}
       ref={mapRef}
     >
     </section>

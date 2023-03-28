@@ -25,3 +25,13 @@
     color: #fffcfc;
   }
 }
+
+.small {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.small svg {
+  text-align: center;
+}
