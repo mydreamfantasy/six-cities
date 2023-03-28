@@ -41,7 +41,7 @@ const Home: React.FC = () => {
   const sortingOffers = getSortingOffers(currentOffers, currentSortName);
 
   if (status.isLoading) {
-    return <LoadingScreen />;
+    return <LoadingScreen type="big" />;
   }
 
   if (status.isError) {

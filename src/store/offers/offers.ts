@@ -5,12 +5,12 @@ import { fetchOffersAction } from '../api-actions';
 
 type OffersData = {
   offers: Offer[];
-  OffersStatus: FetchStatus;
+  offersStatus: FetchStatus;
 };
 
 const initialState: OffersData = {
   offers: [],
-  OffersStatus: FetchStatus.Idle,
+  offersStatus: FetchStatus.Idle,
 };
 
 export const offersData = createSlice({
@@ -20,14 +20,14 @@ export const offersData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
-        state.OffersStatus = FetchStatus.Loading;
+        state.offersStatus = FetchStatus.Loading;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
-        state.OffersStatus = FetchStatus.Success;
+        state.offersStatus = FetchStatus.Success;
       })
       .addCase(fetchOffersAction.rejected, (state) => {
-        state.OffersStatus = FetchStatus.Failed;
+        state.offersStatus = FetchStatus.Failed;
       });
   },
 });

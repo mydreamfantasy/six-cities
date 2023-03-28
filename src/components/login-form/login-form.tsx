@@ -3,6 +3,7 @@ import { FetchStatus } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { getAuthCheckedStatus } from '../../store/user-process/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 import styles from './login-form.module.css';
 
 type FieldProps = {
@@ -107,7 +108,7 @@ const LoginForm: React.FC = () => {
         type="submit"
         disabled={!handleSubmit || isLoading}
       >
-        {isLoading ? 'Loading...' : 'Sign in'}
+        {isLoading ? <LoadingScreen type="small" /> : 'Sign in'}
       </button>
     </form>
   );

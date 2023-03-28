@@ -25,7 +25,7 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense fallback={<LoadingScreen type="big" />}>
       <HelmetProvider>
         <HistoryRouter history={browserHistory}>
           <Routes>
