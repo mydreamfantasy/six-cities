@@ -9,10 +9,14 @@ import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
-import { COUNT_NEAR_OFFER } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { reviews } from '../../mocks/reviews';
-import { fetchOffersAction } from '../../store/api-actions';
+import {
+  fetchCommentsAction,
+  fetchNearbyAction,
+  fetchOffersAction,
+} from '../../store/api-actions';
+import { getComments } from '../../store/comments/selectors';
+import { getNearbyOffers } from '../../store/nearby-offers/selectors';
 import { getOffers } from '../../store/offers/selectors';
 import { Offer } from '../../types/offer';
 import { getRatingColor } from '../../utils/utils';
@@ -32,6 +36,16 @@ const Property: React.FC = () => {
   React.useEffect(() => {
     setRoom(offers.find((offer) => offer.id === Number(id)));
   }, []);
+
+  React.useEffect(() => {
+    if (id) {
+      dispatch(fetchCommentsAction(id));
+      dispatch(fetchNearbyAction(id));
+    }
+  }, [id, dispatch]);
+
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   if (!room) {
     return <>Загрузка...</>;
@@ -53,7 +67,7 @@ const Property: React.FC = () => {
 
   const { avatarUrl, name, isPro } = host;
 
-  const nearOffers = [...offers.slice(0, COUNT_NEAR_OFFER), room];
+  const nearOffers = [...nearbyOffers, room];
 
   return (
     <Layout pageTitle="Property">
@@ -141,7 +155,7 @@ const Property: React.FC = () => {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">{reviews.length}</span>
+                  <span className="reviews__amount">{comments.length}</span>
                 </h2>
                 <ReviewList />
                 <ReviewForm />
@@ -161,7 +175,7 @@ const Property: React.FC = () => {
               Other places in the neighbourhood
             </h2>
             <ListOffers
-              offers={offers.slice(0, COUNT_NEAR_OFFER)}
+              offers={nearbyOffers}
               cardType="property"
               classNames="near-places__list"
             />

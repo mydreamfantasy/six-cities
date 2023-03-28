@@ -43,6 +43,7 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments/',
 }
 
 export enum NameSpace {
@@ -50,6 +51,8 @@ export enum NameSpace {
   Offers = 'OFFERS',
   User = 'USER',
   App = 'APP',
+  Comments = 'COMMENTS',
+  Nearby = 'NEARBY',
 }
 
 export enum FetchStatus {
@@ -61,3 +64,5 @@ export enum FetchStatus {
 
 export const COUNT_NEAR_OFFER = 3;
 export const TIMEOUT_SHOW_ERROR = 2000;
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGHT = 300;

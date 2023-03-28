@@ -1,13 +1,20 @@
 import React from 'react';
-import { reviews } from '../../mocks/reviews';
+import { useAppSelector } from '../../hooks';
+import { getComments } from '../../store/comments/selectors';
 import ReviewItem from '../review/review';
 
-const ReviewList: React.FC = () => (
-  <ul className="reviews__list">
-    {reviews.map((review) => (
-      <ReviewItem key={review.user.name} review={review} />
-    ))}
-  </ul>
-);
+const ReviewList: React.FC = () => {
+  const comments = useAppSelector(getComments);
+  return (
+    <ul className="reviews__list">
+      {comments.map((comment) => (
+        <ReviewItem
+          key={`${comment.user.name} ${comment.id}`}
+          review={comment}
+        />
+      ))}
+    </ul>
+  );
+};
 
 export default ReviewList;
