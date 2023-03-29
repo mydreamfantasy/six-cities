@@ -26,37 +26,17 @@ export const fetchOffersAction = createAsyncThunk<
   }
 });
 
-export const fetchCommentsAction = createAsyncThunk<
-  Review[],
+export const fetchPropertyOfferAction = createAsyncThunk<
+  Offer,
   string,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->('data/comments', async (id, { extra: api }) => {
+>('data/fetchPropertyOffer', async (id, { extra: api }) => {
   try {
-    const { data } = await api.get<Review[]>(`${APIRoute.Comments }${id}`);
-    return data;
-  } catch (err) {
-    throw err;
-  }
-});
-
-export const postCommentAction = createAsyncThunk<
-  Review,
-  PostReview,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }
->('data/comment', async ({ comment, rating, id }, { extra: api }) => {
-  try {
-    const { data } = await api.post<Review>(`${APIRoute.Comments }${id}`, {
-      comment,
-      rating,
-    });
+    const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
     return data;
   } catch (err) {
     throw err;
@@ -73,7 +53,44 @@ export const fetchNearbyAction = createAsyncThunk<
   }
 >('data/fetchNearbyOffers', async (id, { extra: api }) => {
   try {
-    const { data } = await api.get<Offer[]>(`${APIRoute.Offers }/${id}/nearby`);
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+});
+
+export const fetchCommentsAction = createAsyncThunk<
+  Review[],
+  string,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/comments', async (id, { extra: api }) => {
+  try {
+    const { data } = await api.get<Review[]>(`${APIRoute.Comments}${id}`);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+});
+
+export const postCommentAction = createAsyncThunk<
+  Review,
+  PostReview,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/comment', async ({ comment, rating, id }, { extra: api }) => {
+  try {
+    const { data } = await api.post<Review>(`${APIRoute.Comments}${id}`, {
+      comment,
+      rating,
+    });
     return data;
   } catch (err) {
     throw err;

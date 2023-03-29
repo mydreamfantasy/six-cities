@@ -4,51 +4,67 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import Layout from '../../components/layout/layout';
 import ListOffers from '../../components/list-offers/list-offers';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 import Map from '../../components/map/map';
 import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
+import { AuthorizationStatus, FetchStatus } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   fetchCommentsAction,
   fetchNearbyAction,
-  fetchOffersAction,
+  fetchPropertyOfferAction,
 } from '../../store/api-actions';
-import { getComments } from '../../store/comments/selectors';
+import { getComments, getCommentStatus } from '../../store/comments/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers/selectors';
-import { getOffers } from '../../store/offers/selectors';
-import { Offer } from '../../types/offer';
+import {
+  getOffersStatus,
+  getPropertyOffer,
+} from '../../store/offers/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getRatingColor } from '../../utils/utils';
+import FullpageError from '../fullpage-error/fullpage-error';
 
 const Property: React.FC = () => {
   const { id } = useParams();
-  const [room, setRoom] = React.useState<Offer>();
-  const offers = useAppSelector(getOffers);
+
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const { isLoading, isError } = useAppSelector(getOffersStatus);
   const dispatch = useAppDispatch();
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const room = useAppSelector(getPropertyOffer);
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const postStatus = useAppSelector(getCommentStatus);
 
-  React.useEffect(() => {
-    if (!offers.length) {
-      dispatch(fetchOffersAction());
-    }
-  }, [dispatch, offers]);
-
-  React.useEffect(() => {
-    setRoom(offers.find((offer) => offer.id === Number(id)));
-  }, []);
+  // React.useEffect(() => {
+  //   if (room === null && id) {
+  //     dispatch(fetchPropertyOfferAction(id));
+  //   }
+  // }, [dispatch, room]);
 
   React.useEffect(() => {
     if (id) {
       dispatch(fetchCommentsAction(id));
       dispatch(fetchNearbyAction(id));
+      dispatch(fetchPropertyOfferAction(id));
     }
   }, [id, dispatch]);
 
-  const comments = useAppSelector(getComments);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
+  React.useEffect(() => {
+    if (postStatus === FetchStatus.Success && id) {
+      dispatch(fetchCommentsAction(id));
+    }
+  }, [postStatus]);
 
-  if (!room) {
-    return <>Загрузка...</>;
+  if (isLoading || !room) {
+    return <LoadingScreen type="big" />;
+  }
+
+  if (isError) {
+    return <FullpageError />;
   }
 
   const cityLocation = room.city;
@@ -157,8 +173,8 @@ const Property: React.FC = () => {
                   Reviews &middot;{' '}
                   <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewList />
-                <ReviewForm />
+                <ReviewList comments={comments} />
+                {isAuth && <ReviewForm />}
               </section>
             </div>
           </div>

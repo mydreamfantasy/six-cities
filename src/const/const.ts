@@ -53,6 +53,7 @@ export enum NameSpace {
   App = 'APP',
   Comments = 'COMMENTS',
   Nearby = 'NEARBY',
+  Property = 'PROPERTY',
 }
 
 export enum FetchStatus {

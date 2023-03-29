@@ -1,12 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
+  FetchStatus,
   MAX_COMMENT_LENGHT,
   MIN_COMMENT_LENGTH,
   REVIEW_STARS,
 } from '../../const/const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postCommentAction } from '../../store/api-actions';
+import { getCommentStatus } from '../../store/comments/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 import RatingStar from '../rating-star/rating-star';
 
 const ReviewForm: React.FC = () => {
@@ -24,6 +27,10 @@ const ReviewForm: React.FC = () => {
     setData({ ...data, [evt.target.name]: evt.target.value });
   };
 
+  const fetchStatus = useAppSelector(getCommentStatus);
+  const isLoading = fetchStatus === FetchStatus.Loading;
+  const isError = fetchStatus === FetchStatus.Failed;
+
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (id) {
@@ -35,6 +42,11 @@ const ReviewForm: React.FC = () => {
         })
       );
     }
+
+    setData({
+      rating: '',
+      review: '',
+    });
   };
 
   const isValidForm =
@@ -80,11 +92,16 @@ const ReviewForm: React.FC = () => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!handleSubmit || !isValidForm}
+          disabled={!handleSubmit || !isValidForm || isLoading}
         >
-          Submit
+          {isLoading ? <LoadingScreen type="small" /> : 'Submit'}
         </button>
       </div>
+      {isError && (
+        <div style={{ color: 'red', textAlign: 'end' }}>
+          Please, repeat click
+        </div>
+      )}
     </form>
   );
 };

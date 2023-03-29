@@ -9,6 +9,12 @@ export const getOffers = (state: State): Offer[] =>
 export const getStatus = (state: State): FetchStatus =>
   state[NameSpace.Offers].offersStatus;
 
+export const getPropertyOffer = (state: State): Offer | null =>
+  state[NameSpace.Offers].offer;
+
+export const getPropertyStatus = (state: State): FetchStatus =>
+  state[NameSpace.Offers].offerStatus;
+
 export const getOffersStatus = createSelector([getStatus], (status) => ({
   isLoading: [FetchStatus.Idle, FetchStatus.Loading].includes(status),
   isSuccess: status === FetchStatus.Success,
