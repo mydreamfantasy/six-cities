@@ -10,14 +10,14 @@ import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
-import { AuthorizationStatus, FetchStatus } from '../../const/const';
+import { AuthorizationStatus, COUNT_NEAR_OFFER } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   fetchCommentsAction,
   fetchNearbyAction,
   fetchPropertyOfferAction,
 } from '../../store/api-actions';
-import { getComments, getCommentStatus } from '../../store/comments/selectors';
+import { getComments } from '../../store/comments/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers/selectors';
 import {
   getOffersStatus,
@@ -33,17 +33,8 @@ const Property: React.FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const { isLoading, isError } = useAppSelector(getOffersStatus);
   const dispatch = useAppDispatch();
-  const comments = useAppSelector(getComments);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
-  const room = useAppSelector(getPropertyOffer);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const postStatus = useAppSelector(getCommentStatus);
 
-  // React.useEffect(() => {
-  //   if (room === null && id) {
-  //     dispatch(fetchPropertyOfferAction(id));
-  //   }
-  // }, [dispatch, room]);
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   React.useEffect(() => {
     if (id) {
@@ -53,11 +44,9 @@ const Property: React.FC = () => {
     }
   }, [id, dispatch]);
 
-  React.useEffect(() => {
-    if (postStatus === FetchStatus.Success && id) {
-      dispatch(fetchCommentsAction(id));
-    }
-  }, [postStatus]);
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const room = useAppSelector(getPropertyOffer);
 
   if (isLoading || !room) {
     return <LoadingScreen type="big" />;
@@ -83,7 +72,7 @@ const Property: React.FC = () => {
 
   const { avatarUrl, name, isPro } = host;
 
-  const nearOffers = [...nearbyOffers, room];
+  const nearOffers = [...nearbyOffers.slice(0, COUNT_NEAR_OFFER), room];
 
   return (
     <Layout pageTitle="Property">

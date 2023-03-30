@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { getFavorite } from '../../store/favorite/selectors';
 import {
   getAuthorizationStatus,
   getInfo,
@@ -14,6 +15,7 @@ type UserLoggedProps = {
 };
 
 const UserLogged: React.FC<UserLoggedProps> = ({ info }) => {
+  const offers = useAppSelector(getFavorite);
   const { avatarUrl, email } = info;
 
   const dispatch = useAppDispatch();
@@ -34,6 +36,7 @@ const UserLogged: React.FC<UserLoggedProps> = ({ info }) => {
             />
           </div>
           <span className="header__user-name user__name">{email}</span>
+          <span className="header__favorite-count">{offers.length}</span>
         </Link>
       </li>
       <li className="header__nav-item">

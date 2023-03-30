@@ -8,7 +8,7 @@ export type Review = {
   user: User;
 };
 
-export type PostReview = {
+export type CreateReviewPayload = {
   comment: string;
   rating: number;
   id: number;

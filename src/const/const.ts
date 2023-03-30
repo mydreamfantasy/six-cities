@@ -44,6 +44,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments/',
+  Favorite = '/favorite',
 }
 
 export enum NameSpace {
@@ -54,6 +55,8 @@ export enum NameSpace {
   Comments = 'COMMENTS',
   Nearby = 'NEARBY',
   Property = 'PROPERTY',
+  Favorite = 'FAVORITE',
+  Notifications = 'NOTIFICATIONS',
 }
 
 export enum FetchStatus {

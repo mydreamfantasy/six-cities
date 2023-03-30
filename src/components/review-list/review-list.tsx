@@ -8,10 +8,7 @@ type ReviewListProps = {
 const ReviewList: React.FC<ReviewListProps> = ({ comments }) => (
   <ul className="reviews__list">
     {comments.map((comment) => (
-      <ReviewItem
-        key={`${comment.user.name} ${comment.id}`}
-        review={comment}
-      />
+      <ReviewItem key={comment.id} review={comment} />
     ))}
   </ul>
 );

@@ -5,14 +5,12 @@ import { fetchCommentsAction, postCommentAction } from '../api-actions';
 
 type CommentsData = {
   comments: Review[];
-  comment: Review | null;
   commentsStatus: FetchStatus;
   commentStatus: FetchStatus;
 };
 
 const initialState: CommentsData = {
   comments: [],
-  comment: null,
   commentsStatus: FetchStatus.Idle,
   commentStatus: FetchStatus.Idle,
 };
@@ -36,8 +34,7 @@ export const commentsData = createSlice({
       .addCase(postCommentAction.pending, (state) => {
         state.commentStatus = FetchStatus.Loading;
       })
-      .addCase(postCommentAction.fulfilled, (state, action) => {
-        state.comment = action.payload;
+      .addCase(postCommentAction.fulfilled, (state) => {
         state.commentStatus = FetchStatus.Success;
       })
       .addCase(postCommentAction.rejected, (state) => {

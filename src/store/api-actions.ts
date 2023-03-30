@@ -2,12 +2,13 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
 import { Offer } from '../types/offer';
-import { PostReview, Review } from '../types/review';
+import { CreateReviewPayload, Review } from '../types/review';
 import { redirectToRoute } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AppRoute } from '../const/const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { pushNotification } from './notification/notification';
 
 export const fetchOffersAction = createAsyncThunk<
   Offer[],
@@ -37,6 +38,23 @@ export const fetchPropertyOfferAction = createAsyncThunk<
 >('data/fetchPropertyOffer', async (id, { extra: api }) => {
   try {
     const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+});
+
+export const fetchFavoriteAction = createAsyncThunk<
+  Offer[],
+  null,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchNearbyOffers', async (_arg, { extra: api }) => {
+  try {
+    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
     return data;
   } catch (err) {
     throw err;
@@ -78,21 +96,25 @@ export const fetchCommentsAction = createAsyncThunk<
 });
 
 export const postCommentAction = createAsyncThunk<
-  Review,
-  PostReview,
+  Review[],
+  CreateReviewPayload,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->('data/comment', async ({ comment, rating, id }, { extra: api }) => {
+>('data/comment', async ({ comment, rating, id }, { dispatch, extra: api }) => {
   try {
-    const { data } = await api.post<Review>(`${APIRoute.Comments}${id}`, {
+    const { data } = await api.post<Review[]>(`${APIRoute.Comments}${id}`, {
       comment,
       rating,
     });
+    dispatch(fetchCommentsAction(`${id}`));
     return data;
   } catch (err) {
+    dispatch(
+      pushNotification({ type: 'error', message: 'Please repeat send comment' })
+    );
     throw err;
   }
 });
