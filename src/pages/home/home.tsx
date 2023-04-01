@@ -77,6 +77,7 @@ const Home: React.FC = () => {
                   city={sortingOffers[0].city}
                   offers={sortingOffers}
                   selectedOfferId={selectedOfferId}
+                  width="100%"
                 />
               </div>
             </div>

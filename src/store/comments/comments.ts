@@ -34,8 +34,9 @@ export const commentsData = createSlice({
       .addCase(postCommentAction.pending, (state) => {
         state.commentStatus = FetchStatus.Loading;
       })
-      .addCase(postCommentAction.fulfilled, (state) => {
+      .addCase(postCommentAction.fulfilled, (state, action) => {
         state.commentStatus = FetchStatus.Success;
+        state.comments = action.payload;
       })
       .addCase(postCommentAction.rejected, (state) => {
         state.commentStatus = FetchStatus.Failed;

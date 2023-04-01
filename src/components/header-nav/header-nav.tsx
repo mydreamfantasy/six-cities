@@ -43,8 +43,8 @@ const UserLogged: React.FC<UserLoggedProps> = ({ info }) => {
         <a
           className="header__nav-link"
           href="/#"
-          onClick={(event) => {
-            event.preventDefault();
+          onClick={(evt) => {
+            evt.preventDefault();
             dispatch(logoutAction());
           }}
         >

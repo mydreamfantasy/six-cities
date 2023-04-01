@@ -5,23 +5,23 @@ import { Offer } from '../../types/offer';
 import Logo from '../../components/logo/logo';
 import Card from '../../components/card/card';
 import { useAppSelector } from '../../hooks';
-import { getFavorite } from '../../store/favorite/selectors';
+import { groupOffers } from '../../store/favorite/selectors';
 
-interface CitiesInterface {
+export interface CitiesInterface {
   [key: string]: Offer[];
 }
 
 const Favorites: React.FC = () => {
-  const offers = useAppSelector(getFavorite);
+  const offers = useAppSelector(groupOffers);
 
-  const groupedOffers = offers.reduce<CitiesInterface>((acc, offer) => {
-    if (!acc[offer.city.name]) {
-      acc[offer.city.name] = [];
-    }
+  // const groupedOffers = offers.reduce<CitiesInterface>((acc, offer) => {
+  //   if (!acc[offer.city.name]) {
+  //     acc[offer.city.name] = [];
+  //   }
 
-    acc[offer.city.name].push(offer);
-    return acc;
-  }, {});
+  //   acc[offer.city.name].push(offer);
+  //   return acc;
+  // }, {});
 
   return (
     <Layout pageTitle="Favorites">
@@ -31,7 +31,7 @@ const Favorites: React.FC = () => {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.entries(groupedOffers).map(([name, cards]) => (
+                {Object.entries(offers).map(([name, cards]) => (
                   <li className="favorites__locations-items" key={name}>
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">

@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { FetchStatus, NameSpace } from '../../const/const';
 import { Offer } from '../../types/offer';
-import { fetchFavoriteAction } from '../api-actions';
+import { fetchFavoriteAction, postFavoriteAction } from '../api-actions';
 
 type FavoriteData = {
   favorite: Offer[];
   favoriteStatus: FetchStatus;
+  addOfferStatus: FetchStatus;
 };
 
 const initialState: FavoriteData = {
   favorite: [],
   favoriteStatus: FetchStatus.Idle,
+  addOfferStatus: FetchStatus.Idle,
 };
 
 export const favoriteData = createSlice({
@@ -28,6 +30,15 @@ export const favoriteData = createSlice({
       })
       .addCase(fetchFavoriteAction.rejected, (state) => {
         state.favoriteStatus = FetchStatus.Failed;
+      })
+      .addCase(postFavoriteAction.pending, (state) => {
+        state.addOfferStatus = FetchStatus.Loading;
+      })
+      .addCase(postFavoriteAction.fulfilled, (state, action) => {
+        state.addOfferStatus = FetchStatus.Success;
+      })
+      .addCase(postFavoriteAction.rejected, (state) => {
+        state.addOfferStatus = FetchStatus.Failed;
       });
   },
 });

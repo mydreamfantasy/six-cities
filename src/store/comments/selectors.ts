@@ -1,7 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { FetchStatus, NameSpace } from '../../const/const';
+import { FetchStatus, MAX_COMMENTS, NameSpace } from '../../const/const';
 import { Review } from '../../types/review';
 import { State } from '../../types/state';
+import { getSortingComments } from '../../utils/utils';
 
 export const getComments = (state: State): Review[] =>
   state[NameSpace.Comments].comments;
@@ -19,4 +20,8 @@ export const getCommentStatusSelector = createSelector(
     isSuccess: status === FetchStatus.Success,
     isError: status === FetchStatus.Failed,
   })
+);
+
+export const sortComments = createSelector(getComments, (state) =>
+  state.slice().sort(getSortingComments).slice(0, MAX_COMMENTS)
 );

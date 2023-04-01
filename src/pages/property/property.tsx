@@ -16,12 +16,13 @@ import {
   fetchCommentsAction,
   fetchNearbyAction,
   fetchPropertyOfferAction,
+  postFavoriteAction,
 } from '../../store/api-actions';
-import { getComments } from '../../store/comments/selectors';
+import { sortComments } from '../../store/comments/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers/selectors';
 import {
-  getOffersStatus,
   getPropertyOffer,
+  getPropertyOfferStatus,
 } from '../../store/offers/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getRatingColor } from '../../utils/utils';
@@ -31,20 +32,20 @@ const Property: React.FC = () => {
   const { id } = useParams();
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const { isLoading, isError } = useAppSelector(getOffersStatus);
+  const { isLoading, isError } = useAppSelector(getPropertyOfferStatus);
   const dispatch = useAppDispatch();
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   React.useEffect(() => {
     if (id) {
-      dispatch(fetchCommentsAction(id));
+      dispatch(fetchCommentsAction(Number(id)));
       dispatch(fetchNearbyAction(id));
       dispatch(fetchPropertyOfferAction(id));
     }
   }, [id, dispatch]);
 
-  const comments = useAppSelector(getComments);
+  const comments = useAppSelector(sortComments);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const room = useAppSelector(getPropertyOffer);
 
@@ -68,8 +69,8 @@ const Property: React.FC = () => {
     price,
     goods,
     host,
+    isFavorite,
   } = room;
-
   const { avatarUrl, name, isPro } = host;
 
   const nearOffers = [...nearbyOffers.slice(0, COUNT_NEAR_OFFER), room];
@@ -92,9 +93,17 @@ const Property: React.FC = () => {
                 <h1 className="property__name">{title}</h1>
 
                 <Bookmark
-                  className="property__bookmark-button"
+                  className="property"
                   type="room"
                   classNameSVG="property__bookmark-icon"
+                  onClick={() => {
+                    dispatch(
+                      postFavoriteAction({
+                        id: Number(id),
+                        status: Number(!isFavorite),
+                      })
+                    );
+                  }}
                 />
               </div>
               <div className="property__rating rating">
@@ -172,6 +181,7 @@ const Property: React.FC = () => {
             city={cityLocation}
             offers={nearOffers}
             selectedOfferId={room.id}
+            width="560px"
           />
         </section>
         <div className="container">

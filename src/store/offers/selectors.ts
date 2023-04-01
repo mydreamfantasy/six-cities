@@ -20,3 +20,12 @@ export const getOffersStatus = createSelector([getStatus], (status) => ({
   isSuccess: status === FetchStatus.Success,
   isError: status === FetchStatus.Failed,
 }));
+
+export const getPropertyOfferStatus = createSelector(
+  [getPropertyStatus],
+  (status) => ({
+    isLoading: [FetchStatus.Idle, FetchStatus.Loading].includes(status),
+    isSuccess: status === FetchStatus.Success,
+    isError: status === FetchStatus.Failed,
+  })
+);

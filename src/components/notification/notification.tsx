@@ -5,6 +5,7 @@ import { getNotifications } from '../../store/notification/selectors';
 import { INotification } from '../../types/notification';
 import { ToastOptions } from 'react-toastify/dist/types';
 import { clearNotification } from '../../store/notification/notification';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Notification: React.FC = () => {
   const notifications = useAppSelector(getNotifications);
@@ -13,7 +14,7 @@ const Notification: React.FC = () => {
   const renderNotification = () => {
     notifications.forEach((notification: INotification) => {
       const toastOptions: ToastOptions = {
-        autoClose: notification.duration || 5000,
+        autoClose: notification.duration || 3000,
         toastId: notification.id,
         onClose: () => dispatch(clearNotification(notification.id)),
       };

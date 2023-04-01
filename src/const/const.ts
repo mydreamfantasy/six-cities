@@ -70,3 +70,5 @@ export const COUNT_NEAR_OFFER = 3;
 export const TIMEOUT_SHOW_ERROR = 2000;
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGHT = 300;
+export const MAX_COMMENTS = 10;
+export const ACTIVE_CLASSNAME = '__bookmark-button--active';

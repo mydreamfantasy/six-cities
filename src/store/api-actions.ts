@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
-import { Offer } from '../types/offer';
+import { FavoritePayload, Offer } from '../types/offer';
 import { CreateReviewPayload, Review } from '../types/review';
 import { redirectToRoute } from './action';
 import { saveToken, dropToken } from '../services/token';
@@ -35,28 +35,17 @@ export const fetchPropertyOfferAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->('data/fetchPropertyOffer', async (id, { extra: api }) => {
+>('data/fetchPropertyOffer', async (id, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
     return data;
   } catch (err) {
-    throw err;
-  }
-});
-
-export const fetchFavoriteAction = createAsyncThunk<
-  Offer[],
-  null,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }
->('data/fetchNearbyOffers', async (_arg, { extra: api }) => {
-  try {
-    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
-    return data;
-  } catch (err) {
+    dispatch(
+      pushNotification({
+        type: 'error',
+        message: 'Unfortunately, we can\'t show room page',
+      })
+    );
     throw err;
   }
 });
@@ -69,28 +58,91 @@ export const fetchNearbyAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->('data/fetchNearbyOffers', async (id, { extra: api }) => {
+>('data/fetchNearbyOffers', async (id, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
     return data;
   } catch (err) {
+    dispatch(
+      pushNotification({
+        type: 'error',
+        message: 'Unfortunately, we can\'t show nearby offers',
+      })
+    );
     throw err;
   }
 });
 
-export const fetchCommentsAction = createAsyncThunk<
-  Review[],
-  string,
+export const fetchFavoriteAction = createAsyncThunk<
+  Offer[],
+  null,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->('data/comments', async (id, { extra: api }) => {
+>('data/fetchFavoriteOffers', async (_arg, { dispatch, extra: api }) => {
+  try {
+    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
+    return data;
+  } catch (err) {
+    dispatch(
+      pushNotification({
+        type: 'error',
+        message: 'Unfortunately, we can\'t show favorite offers',
+      })
+    );
+    throw err;
+  }
+});
+
+export const postFavoriteAction = createAsyncThunk<
+  Offer,
+  FavoritePayload,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'data/postFavoriteOffers',
+  async ({ id, status }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<Offer>(
+        `${APIRoute.Favorite}/${id}/${status}`
+      );
+      return data;
+    } catch (err) {
+      dispatch(
+        pushNotification({
+          type: 'error',
+          message: 'Unfortunately, we can\'t add/remove favorite offer',
+        })
+      );
+      throw err;
+    }
+  }
+);
+
+export const fetchCommentsAction = createAsyncThunk<
+  Review[],
+  number,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/comments', async (id, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Review[]>(`${APIRoute.Comments}${id}`);
     return data;
   } catch (err) {
+    dispatch(
+      pushNotification({
+        type: 'error',
+        message: 'Unfortunately, we can\'t show comments',
+      })
+    );
     throw err;
   }
 });
@@ -109,7 +161,6 @@ export const postCommentAction = createAsyncThunk<
       comment,
       rating,
     });
-    dispatch(fetchCommentsAction(`${id}`));
     return data;
   } catch (err) {
     dispatch(
@@ -128,12 +179,8 @@ export const checkAuthAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('user/checkAuth', async (_arg, { extra: api }) => {
-  try {
-    const { data } = await api.get<UserData>(APIRoute.Login);
-    return data;
-  } catch (err) {
-    throw err;
-  }
+  const { data } = await api.get<UserData>(APIRoute.Login);
+  return data;
 });
 
 export const loginAction = createAsyncThunk<
@@ -156,6 +203,9 @@ export const loginAction = createAsyncThunk<
       dispatch(redirectToRoute(AppRoute.Root));
       return data;
     } catch (err) {
+      dispatch(
+        pushNotification({ type: 'error', message: 'Please repeat log in' })
+      );
       throw err;
     }
   }
@@ -169,11 +219,14 @@ export const logoutAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->('user/logout', async (_arg, { extra: api }) => {
+>('user/logout', async (_arg, { dispatch, extra: api }) => {
   try {
     await api.delete(APIRoute.Logout);
     dropToken();
   } catch (err) {
+    dispatch(
+      pushNotification({ type: 'error', message: 'Please repeat log out' })
+    );
     throw err;
   }
 });
