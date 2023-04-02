@@ -1,37 +1,54 @@
 import React from 'react';
 
 import Layout from '../../components/layout/layout';
-import { Offer } from '../../types/offer';
 import Logo from '../../components/logo/logo';
 import Card from '../../components/card/card';
-import { useAppSelector } from '../../hooks';
-import { groupOffers } from '../../store/favorite/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import {
+  getFavoritesStatus,
+  selectGroupedOffers,
+} from '../../store/favorites/selectors';
+import { fetchFavoritesAction } from '../../store/api-actions';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
-export interface CitiesInterface {
-  [key: string]: Offer[];
-}
+const FavoritesEmpty: React.FC = () => (
+  <section className="favorites favorites--empty">
+    <h1 className="visually-hidden">Favorites (empty)</h1>
+    <div className="favorites__status-wrapper">
+      <b className="favorites__status">Nothing yet saved.</b>
+      <p className="favorites__status-description">
+        Save properties to narrow down search or plan your future trips.
+      </p>
+    </div>
+  </section>
+);
 
 const Favorites: React.FC = () => {
-  const offers = useAppSelector(groupOffers);
+  const groupedOffers = useAppSelector(selectGroupedOffers);
+  const status = useAppSelector(getFavoritesStatus);
+  const dispatch = useAppDispatch();
 
-  // const groupedOffers = offers.reduce<CitiesInterface>((acc, offer) => {
-  //   if (!acc[offer.city.name]) {
-  //     acc[offer.city.name] = [];
-  //   }
+  React.useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
 
-  //   acc[offer.city.name].push(offer);
-  //   return acc;
-  // }, {});
+  if (status.isLoading) {
+    return <LoadingScreen type="big" />;
+  }
+
+  const isEmpty = !Object.keys(groupedOffers).length;
 
   return (
     <Layout pageTitle="Favorites">
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          {offers.length ? (
+          {isEmpty ? (
+            <FavoritesEmpty />
+          ) : (
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.entries(offers).map(([name, cards]) => (
+                {Object.entries(groupedOffers).map(([name, cards]) => (
                   <li className="favorites__locations-items" key={name}>
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
@@ -52,17 +69,6 @@ const Favorites: React.FC = () => {
                   </li>
                 ))}
               </ul>
-            </section>
-          ) : (
-            <section className="favorites favorites--empty">
-              <h1 className="visually-hidden">Favorites (empty)</h1>
-              <div className="favorites__status-wrapper">
-                <b className="favorites__status">Nothing yet saved.</b>
-                <p className="favorites__status-description">
-                  Save properties to narrow down search or plan your future
-                  trips.
-                </p>
-              </div>
             </section>
           )}
         </div>

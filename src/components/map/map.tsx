@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { Icon, Marker } from 'leaflet';
+import { Icon, Marker, LayerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { City, Offer } from '../../types/offer';
 import useMap from '../../hooks/use-map';
@@ -35,6 +35,7 @@ const Map: React.FC<MapProps> = ({
 }) => {
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
+  const layer = new LayerGroup();
 
   React.useEffect(() => {
     if (map) {
@@ -54,15 +55,19 @@ const Map: React.FC<MapProps> = ({
           lng: offer.location.longitude,
         });
 
-        marker
-          .setIcon(
-            selectedOfferId && offer.id === selectedOfferId
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(map);
+        marker.setIcon(
+          selectedOfferId && offer.id === selectedOfferId
+            ? currentCustomIcon
+            : defaultCustomIcon
+        );
+        layer.addLayer(marker);
       });
+
+      layer.addTo(map);
     }
+    return () => {
+      layer.clearLayers();
+    };
   }, [map, offers, selectedOfferId]);
 
   return (

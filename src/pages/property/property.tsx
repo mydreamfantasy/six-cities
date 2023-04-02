@@ -10,13 +10,17 @@ import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
-import { AuthorizationStatus, COUNT_NEAR_OFFER } from '../../const/const';
+import {
+  AuthorizationStatus,
+  COUNT_NEAR_OFFER,
+  MAX_PHOTOS,
+} from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   fetchCommentsAction,
   fetchNearbyAction,
   fetchPropertyOfferAction,
-  postFavoriteAction,
+  changeFavoriteAction,
 } from '../../store/api-actions';
 import { sortComments } from '../../store/comments/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers/selectors';
@@ -75,13 +79,22 @@ const Property: React.FC = () => {
 
   const nearOffers = [...nearbyOffers.slice(0, COUNT_NEAR_OFFER), room];
 
+  const onFavoriteClick = () => {
+    dispatch(
+      changeFavoriteAction({
+        id: Number(id),
+        status: Number(!isFavorite),
+      })
+    );
+  };
+
   return (
     <Layout pageTitle="Property">
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((img) => (
+              {images.slice(0, MAX_PHOTOS).map((img) => (
                 <PropertyImage key={img} img={img} />
               ))}
             </div>
@@ -97,14 +110,7 @@ const Property: React.FC = () => {
                   type="room"
                   classNameSVG="property__bookmark-icon"
                   isActive={isFavorite}
-                  onClick={() => {
-                    dispatch(
-                      postFavoriteAction({
-                        id: Number(id),
-                        status: Number(!isFavorite),
-                      })
-                    );
-                  }}
+                  onClick={onFavoriteClick}
                 />
               </div>
               <div className="property__rating rating">

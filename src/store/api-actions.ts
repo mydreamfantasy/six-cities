@@ -79,15 +79,15 @@ export const fetchNearbyAction = createAsyncThunk<
   }
 });
 
-export const fetchFavoriteAction = createAsyncThunk<
+export const fetchFavoritesAction = createAsyncThunk<
   Offer[],
-  null,
+  undefined,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->('data/fetchFavoriteOffers', async (_arg, { dispatch, extra: api }) => {
+>('data/fetchFavoritesOffers', async (_arg, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer[]>(APIRoute.Favorite);
     return data;
@@ -102,7 +102,7 @@ export const fetchFavoriteAction = createAsyncThunk<
   }
 });
 
-export const postFavoriteAction = createAsyncThunk<
+export const changeFavoriteAction = createAsyncThunk<
   Offer,
   FavoritePayload,
   {
@@ -111,7 +111,7 @@ export const postFavoriteAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >(
-  'data/postFavoriteOffers',
+  'data/changeFavoriteOffers',
   async ({ id, status }, { dispatch, extra: api }) => {
     try {
       const { data } = await api.post<Offer>(

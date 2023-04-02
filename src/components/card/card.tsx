@@ -7,7 +7,7 @@ import ImagePlace from '../image-place/image-place';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 import { useAppDispatch } from '../../hooks';
-import { postFavoriteAction } from '../../store/api-actions';
+import { changeFavoriteAction } from '../../store/api-actions';
 
 type CardProps = {
   offer: Offer;
@@ -88,7 +88,12 @@ const Card: React.FC<CardProps> = ({
             classNameSVG="place-card__bookmark-icon"
             isActive={isFavorite}
             onClick={() => {
-              dispatch(postFavoriteAction({ id, status: Number(!isFavorite) }));
+              dispatch(
+                changeFavoriteAction({
+                  id,
+                  status: Number(!isFavorite),
+                })
+              );
             }}
           />
         </div>

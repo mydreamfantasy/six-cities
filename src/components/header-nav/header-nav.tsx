@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { getFavorite } from '../../store/favorite/selectors';
+import { getOffers } from '../../store/offers/selectors';
 import {
   getAuthorizationStatus,
   getInfo,
@@ -12,13 +12,14 @@ import { UserData } from '../../types/user-data';
 
 type UserLoggedProps = {
   info: UserData;
+  length: number | null;
 };
 
-const UserLogged: React.FC<UserLoggedProps> = ({ info }) => {
-  const offers = useAppSelector(getFavorite);
+const UserLogged: React.FC<UserLoggedProps> = ({ info, length }) => {
   const { avatarUrl, email } = info;
 
   const dispatch = useAppDispatch();
+
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
@@ -36,7 +37,7 @@ const UserLogged: React.FC<UserLoggedProps> = ({ info }) => {
             />
           </div>
           <span className="header__user-name user__name">{email}</span>
-          <span className="header__favorite-count">{offers.length}</span>
+          <span className="header__favorite-count">{length}</span>
         </Link>
       </li>
       <li className="header__nav-item">
@@ -79,7 +80,11 @@ const UserNotLogged: React.FC = () => {
 
 const HeaderNav: React.FC = () => {
   const info = useAppSelector(getInfo);
+  const offers = useAppSelector(getOffers);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoritesOffersLenght = offers.filter(
+    (offer) => offer.isFavorite
+  ).length;
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -92,7 +97,9 @@ const HeaderNav: React.FC = () => {
   }
 
   return (
-    <nav className="header__nav">{isAuth && <UserLogged info={info} />}</nav>
+    <nav className="header__nav">
+      {isAuth && <UserLogged info={info} length={favoritesOffersLenght} />}
+    </nav>
   );
 };
 
