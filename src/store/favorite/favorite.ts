@@ -36,6 +36,13 @@ export const favoriteData = createSlice({
       })
       .addCase(postFavoriteAction.fulfilled, (state, action) => {
         state.addOfferStatus = FetchStatus.Success;
+        if (action.payload.isFavorite) {
+          state.favorite.push(action.payload);
+        } else {
+          state.favorite = state.favorite.filter(
+            ({ id }) => id !== action.payload.id
+          );
+        }
       })
       .addCase(postFavoriteAction.rejected, (state) => {
         state.addOfferStatus = FetchStatus.Failed;

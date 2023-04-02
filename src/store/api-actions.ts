@@ -18,11 +18,17 @@ export const fetchOffersAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->('data/fetchOffers', async (_arg, { extra: api }) => {
+>('data/fetchOffers', async (_arg, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
     return data;
   } catch (err) {
+    dispatch(
+      pushNotification({
+        type: 'error',
+        message: 'Unfortunately, we can\'t show offers',
+      })
+    );
     throw err;
   }
 });
@@ -108,7 +114,7 @@ export const postFavoriteAction = createAsyncThunk<
   'data/postFavoriteOffers',
   async ({ id, status }, { dispatch, extra: api }) => {
     try {
-      const { data } = await api.get<Offer>(
+      const { data } = await api.post<Offer>(
         `${APIRoute.Favorite}/${id}/${status}`
       );
       return data;

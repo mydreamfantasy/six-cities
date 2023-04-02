@@ -20,3 +20,12 @@ export const groupOffers = createSelector(getFavorite, (offers) =>
     return acc;
   }, {})
 );
+
+export const getFavoritePostStatus = createSelector(
+  [getFavoriteStatus],
+  (status) => ({
+    isLoading: status === FetchStatus.Loading,
+    isSuccess: status === FetchStatus.Success,
+    isError: status === FetchStatus.Failed,
+  })
+);

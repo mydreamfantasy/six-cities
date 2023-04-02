@@ -86,6 +86,7 @@ const Card: React.FC<CardProps> = ({
             className="place-card"
             type="card"
             classNameSVG="place-card__bookmark-icon"
+            isActive={isFavorite}
             onClick={() => {
               dispatch(postFavoriteAction({ id, status: Number(!isFavorite) }));
             }}

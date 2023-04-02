@@ -96,6 +96,7 @@ const Property: React.FC = () => {
                   className="property"
                   type="room"
                   classNameSVG="property__bookmark-icon"
+                  isActive={isFavorite}
                   onClick={() => {
                     dispatch(
                       postFavoriteAction({

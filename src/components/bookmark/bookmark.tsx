@@ -2,7 +2,11 @@ import React from 'react';
 import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { AppRoute, AuthorizationStatus } from '../../const/const';
+import {
+  ACTIVE_CLASSNAME,
+  AppRoute,
+  AuthorizationStatus,
+} from '../../const/const';
 import { redirectToRoute } from '../../store/action';
 
 type BookmarkProps = {
@@ -10,6 +14,7 @@ type BookmarkProps = {
   classNameSVG: string;
   type: 'card' | 'room';
   onClick: () => void;
+  isActive: boolean;
 };
 
 const sizes = {
@@ -28,15 +33,20 @@ const Bookmark: React.FC<BookmarkProps> = ({
   classNameSVG,
   type,
   onClick,
+  isActive,
 }) => {
   const size = sizes[type];
   const dispatch = useAppDispatch();
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const activeClass = `${className}${ACTIVE_CLASSNAME}`;
 
   return (
     <button
-      className={cn(`${className}__bookmark-button button`, className)}
+      className={cn(
+        `${className}__bookmark-button button`,
+        isActive && activeClass
+      )}
       type="button"
       onClick={() => {
         if (authorizationStatus === AuthorizationStatus.Auth) {
