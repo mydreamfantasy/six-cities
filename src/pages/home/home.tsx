@@ -13,6 +13,9 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 import FullpageError from '../fullpage-error/fullpage-error';
 import { getCity, getSortType } from '../../store/app-slice/selectors';
 import { changeCity } from '../../store/app-slice/app';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AuthorizationStatus } from '../../const/const';
+
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
     null
@@ -23,12 +26,18 @@ const Home: React.FC = () => {
   const offers = useAppSelector(getOffers);
   const currentSortName = useAppSelector(getSortType);
   const status = useAppSelector(getOffersStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const statusLogOut = authorizationStatus === AuthorizationStatus.NoAuth;
 
   React.useEffect(() => {
     if (!offers.length) {
       dispatch(fetchOffersAction());
     }
   }, [dispatch, offers]);
+
+  React.useEffect(() => {
+    dispatch(fetchOffersAction());
+  }, [statusLogOut]);
 
   const onChangeCity = (city: string) => {
     dispatch(changeCity(city));

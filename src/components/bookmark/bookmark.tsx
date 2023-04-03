@@ -8,7 +8,6 @@ import {
   AuthorizationStatus,
 } from '../../const/const';
 import { redirectToRoute } from '../../store/action';
-import { getFavoritesStatus } from '../../store/favorites/selectors';
 
 type BookmarkProps = {
   className: string;
@@ -39,7 +38,6 @@ const Bookmark: React.FC<BookmarkProps> = ({
   const size = sizes[type];
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const { isLoading } = useAppSelector(getFavoritesStatus);
   const activeClass = `${className}${ACTIVE_CLASSNAME}`;
 
   return (
@@ -49,11 +47,9 @@ const Bookmark: React.FC<BookmarkProps> = ({
         isActive && activeClass
       )}
       type="button"
-      disabled={isLoading}
       onClick={() => {
         if (authorizationStatus === AuthorizationStatus.Auth) {
           onClick();
-
         } else {
           dispatch(redirectToRoute(AppRoute.Login));
         }

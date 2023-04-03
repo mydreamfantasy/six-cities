@@ -26,3 +26,6 @@ export const getSortingOffers = (offers: Offer[], activeSort: string) => {
 
 export const getSortingComments = (a: Review, b: Review) =>
   dayjs(b.date).diff(dayjs(a.date));
+
+export const getRandomCity = (cities: string[]) =>
+  cities[Math.floor(Math.random() * cities.length)];

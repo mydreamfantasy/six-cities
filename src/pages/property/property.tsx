@@ -38,7 +38,7 @@ const Property: React.FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const { isLoading, isError } = useAppSelector(getPropertyOfferStatus);
   const dispatch = useAppDispatch();
-
+  const statusLogOut = authorizationStatus === AuthorizationStatus.NoAuth;
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   React.useEffect(() => {
@@ -47,7 +47,7 @@ const Property: React.FC = () => {
       dispatch(fetchNearbyAction(id));
       dispatch(fetchPropertyOfferAction(id));
     }
-  }, [id, dispatch]);
+  }, [id, dispatch, statusLogOut]);
 
   const comments = useAppSelector(sortComments);
   const nearbyOffers = useAppSelector(getNearbyOffers);
