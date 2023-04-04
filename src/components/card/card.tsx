@@ -5,10 +5,9 @@ import Bookmark from '../bookmark/bookmark';
 import { Offer } from '../../types/offer';
 import ImagePlace from '../image-place/image-place';
 import { generatePath, Link } from 'react-router-dom';
-import { AppRoute, DEBOUNCE_TIME } from '../../const/const';
+import { AppRoute } from '../../const/const';
 import { useAppDispatch } from '../../hooks';
 import { changeFavoriteAction } from '../../store/api-actions';
-import debounce from 'lodash.debounce';
 
 type CardProps = {
   offer: Offer;
@@ -88,14 +87,14 @@ const Card: React.FC<CardProps> = ({
             type="card"
             classNameSVG="place-card__bookmark-icon"
             isActive={isFavorite}
-            onClick={debounce(() => {
+            onClick={() => {
               dispatch(
                 changeFavoriteAction({
                   id,
                   status: Number(!isFavorite),
                 })
               );
-            }, DEBOUNCE_TIME)}
+            }}
           />
         </div>
         <div className="place-card__rating rating">

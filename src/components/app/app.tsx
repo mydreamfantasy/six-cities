@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import React from 'react';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 
 import Home from '../../pages/home/home';
@@ -9,7 +8,7 @@ import Login from '../../pages/login/login';
 import Property from '../../pages/property/property';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute } from '../../const/const';
+import { AppRoute, AuthorizationStatus } from '../../const/const';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import HistoryRouter from '../history-router/history-router';
@@ -20,32 +19,37 @@ import { checkAuthAction } from '../../store/api-actions';
 const App: React.FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
+  const isLoading = authorizationStatus === AuthorizationStatus.Unknown;
 
   React.useEffect(() => {
     dispatch(checkAuthAction());
   }, [dispatch]);
 
+  if (isLoading) {
+    return <LoadingScreen type="big" />;
+  }
+
   return (
-    <Suspense fallback={<LoadingScreen type="big" />}>
-      <HelmetProvider>
-        <HistoryRouter history={browserHistory}>
-          <Routes>
-            <Route path={AppRoute.Root} element={<Home />} />
-            <Route path={AppRoute.Login} element={<Login />} />
-            <Route
-              path={AppRoute.Favorites}
-              element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
+    <HelmetProvider>
+      <HistoryRouter history={browserHistory}>
+        <Routes>
+          <Route path={AppRoute.Root} element={<Home />} />
+          <Route path={AppRoute.Login} element={<Login />} />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute authorizationStatus={authorizationStatus}>
+                <Suspense fallback={<LoadingScreen type="big" />}>
                   <Favorites />
-                </PrivateRoute>
-              }
-            />
-            <Route path={AppRoute.Property} element={<Property />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </HistoryRouter>
-      </HelmetProvider>
-    </Suspense>
+                </Suspense>
+              </PrivateRoute>
+            }
+          />
+          <Route path={AppRoute.Property} element={<Property />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </HistoryRouter>
+    </HelmetProvider>
   );
 };
 

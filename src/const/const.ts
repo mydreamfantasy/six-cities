@@ -73,4 +73,3 @@ export const MAX_COMMENT_LENGHT = 300;
 export const MAX_COMMENTS = 10;
 export const ACTIVE_CLASSNAME = '__bookmark-button--active';
 export const MAX_PHOTOS = 6;
-export const DEBOUNCE_TIME = 500;
