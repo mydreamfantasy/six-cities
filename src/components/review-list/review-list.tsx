@@ -5,6 +5,7 @@ import ReviewItem from '../review/review';
 type ReviewListProps = {
   comments: Review[];
 };
+
 const ReviewList: React.FC<ReviewListProps> = ({ comments }) => (
   <ul className="reviews__list">
     {comments.map((comment) => (

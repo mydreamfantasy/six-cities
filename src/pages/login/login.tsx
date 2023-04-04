@@ -1,16 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Layout from '../../components/layout/layout';
 import LoginForm from '../../components/login-form/login-form';
-import { AppRoute, CITIES } from '../../const/const';
-import { useAppDispatch } from '../../hooks';
+import { AppRoute, AuthorizationStatus, CITIES } from '../../const/const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/app-slice/app';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getRandomCity } from '../../utils/utils';
 
 const Login: React.FC = () => {
   const randomCity = getRandomCity(CITIES);
   const dispatch = useAppDispatch();
+  const statusAuth = useAppSelector(getAuthorizationStatus);
+  const isAuth = statusAuth === AuthorizationStatus.Auth;
+  const navigate = useNavigate();
+
+  if (isAuth) {
+    navigate(AppRoute.Root);
+  }
 
   return (
     <Layout className="page--gray page--login" hasNav={false} pageTitle="Login">

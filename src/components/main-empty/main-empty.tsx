@@ -11,7 +11,7 @@ const MainEmpty: React.FC<MainEmptyProps> = ({ city }) => (
         <div className="cities__status-wrapper tabs__content">
           <b className="cities__status">No places to stay available</b>
           <p className="cities__status-description">
-              We could not find any property available at the moment in {city}
+            We could not find any property available at the moment in {city}
           </p>
         </div>
       </section>
@@ -20,4 +20,4 @@ const MainEmpty: React.FC<MainEmptyProps> = ({ city }) => (
   </div>
 );
 
-export default MainEmpty;
+export default React.memo(MainEmpty);

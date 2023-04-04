@@ -32,7 +32,7 @@ const Sort: React.FC<SortProps> = ({ currentSortName }) => {
 
   return (
     <form ref={sortRef} className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by </span>
       <span
         className="places__sorting-type"
         tabIndex={0}
@@ -66,4 +66,4 @@ const Sort: React.FC<SortProps> = ({ currentSortName }) => {
   );
 };
 
-export default Sort;
+export default React.memo(Sort);

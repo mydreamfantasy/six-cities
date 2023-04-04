@@ -30,7 +30,7 @@ import {
 } from '../../store/offers/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getRatingColor } from '../../utils/utils';
-import FullpageError from '../fullpage-error/fullpage-error';
+import FullPageError from '../full-page-error/full-page-error';
 
 const Property: React.FC = () => {
   const { id } = useParams();
@@ -58,7 +58,7 @@ const Property: React.FC = () => {
   }
 
   if (isError) {
-    return <FullpageError />;
+    return <FullPageError />;
   }
 
   const cityLocation = room.city;
@@ -188,7 +188,7 @@ const Property: React.FC = () => {
             city={cityLocation}
             offers={nearOffers}
             selectedOfferId={room.id}
-            width="560px"
+            height="560px"
           />
         </section>
         <div className="container">

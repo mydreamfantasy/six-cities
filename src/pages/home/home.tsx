@@ -10,11 +10,9 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import { getOffers, getOffersStatus } from '../../store/offers/selectors';
 import { fetchOffersAction } from '../../store/api-actions';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
-import FullpageError from '../fullpage-error/fullpage-error';
 import { getCity, getSortType } from '../../store/app-slice/selectors';
 import { changeCity } from '../../store/app-slice/app';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { AuthorizationStatus } from '../../const/const';
+import FullPageError from '../full-page-error/full-page-error';
 
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
@@ -26,18 +24,12 @@ const Home: React.FC = () => {
   const offers = useAppSelector(getOffers);
   const currentSortName = useAppSelector(getSortType);
   const status = useAppSelector(getOffersStatus);
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const statusLogOut = authorizationStatus === AuthorizationStatus.NoAuth;
 
   React.useEffect(() => {
     if (!offers.length) {
       dispatch(fetchOffersAction());
     }
   }, [dispatch, offers]);
-
-  React.useEffect(() => {
-    dispatch(fetchOffersAction());
-  }, [statusLogOut]);
 
   const onChangeCity = (city: string) => {
     dispatch(changeCity(city));
@@ -54,7 +46,7 @@ const Home: React.FC = () => {
   }
 
   if (status.isError) {
-    return <FullpageError />;
+    return <FullPageError />;
   }
 
   return (
@@ -86,7 +78,7 @@ const Home: React.FC = () => {
                   city={sortingOffers[0].city}
                   offers={sortingOffers}
                   selectedOfferId={selectedOfferId}
-                  width="100%"
+                  height="100%"
                 />
               </div>
             </div>

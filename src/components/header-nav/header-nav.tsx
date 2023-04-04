@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { getOffers } from '../../store/offers/selectors';
+import { getFavorites } from '../../store/favorites/selectors';
 import {
   getAuthorizationStatus,
   getInfo,
@@ -12,10 +12,10 @@ import { UserData } from '../../types/user-data';
 
 type UserLoggedProps = {
   info: UserData;
-  length: number | null;
+  count: number;
 };
 
-const UserLogged: React.FC<UserLoggedProps> = ({ info, length }) => {
+const UserLogged: React.FC<UserLoggedProps> = ({ info, count }) => {
   const { avatarUrl, email } = info;
 
   const dispatch = useAppDispatch();
@@ -37,7 +37,7 @@ const UserLogged: React.FC<UserLoggedProps> = ({ info, length }) => {
             />
           </div>
           <span className="header__user-name user__name">{email}</span>
-          <span className="header__favorite-count">{length}</span>
+          <span className="header__favorite-count">{count}</span>
         </Link>
       </li>
       <li className="header__nav-item">
@@ -80,11 +80,8 @@ const UserNotLogged: React.FC = () => {
 
 const HeaderNav: React.FC = () => {
   const info = useAppSelector(getInfo);
-  const offers = useAppSelector(getOffers);
+  const favorites = useAppSelector(getFavorites);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const favoritesOffersLenght = offers.filter(
-    (offer) => offer.isFavorite
-  ).length;
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -98,9 +95,9 @@ const HeaderNav: React.FC = () => {
 
   return (
     <nav className="header__nav">
-      {isAuth && <UserLogged info={info} length={favoritesOffersLenght} />}
+      {isAuth && <UserLogged info={info} count={favorites.length} />}
     </nav>
   );
 };
 
-export default HeaderNav;
+export default React.memo(HeaderNav);

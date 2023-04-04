@@ -8,6 +8,7 @@ import {
   AuthorizationStatus,
 } from '../../const/const';
 import { redirectToRoute } from '../../store/action';
+import { getFavoritesStatus } from '../../store/favorites/selectors';
 
 type BookmarkProps = {
   className: string;
@@ -39,6 +40,7 @@ const Bookmark: React.FC<BookmarkProps> = ({
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const activeClass = `${className}${ACTIVE_CLASSNAME}`;
+  const status = useAppSelector(getFavoritesStatus);
 
   return (
     <button
@@ -54,6 +56,7 @@ const Bookmark: React.FC<BookmarkProps> = ({
           dispatch(redirectToRoute(AppRoute.Login));
         }
       }}
+      disabled={!!status.isLoading}
     >
       <svg className={cn(classNameSVG)} width={size.width} height={size.height}>
         <use xlinkHref="#icon-bookmark"></use>

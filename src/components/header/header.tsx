@@ -19,4 +19,4 @@ const Header: React.FC<HeaderProps> = ({ hasNav = true }) => (
   </header>
 );
 
-export default Header;
+export default React.memo(Header);

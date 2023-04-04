@@ -11,7 +11,7 @@ type MapProps = {
   city: City;
   offers: Offer[];
   selectedOfferId?: number | null;
-  width: string;
+  height: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -31,7 +31,7 @@ const Map: React.FC<MapProps> = ({
   city,
   offers,
   selectedOfferId,
-  width,
+  height,
 }) => {
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
@@ -73,7 +73,7 @@ const Map: React.FC<MapProps> = ({
   return (
     <section
       className={cn('map', className)}
-      style={{ height: width }}
+      style={{ height: height }}
       ref={mapRef}
     >
     </section>

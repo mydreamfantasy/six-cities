@@ -49,4 +49,4 @@ const ImagePlace: React.FC<ImagePlaceProps> = ({
   );
 };
 
-export default ImagePlace;
+export default React.memo(ImagePlace);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import styles from './fullpage-error.module.css';
+import styles from './full-page-error.module.css';
 
 import Logo from '../../components/logo/logo';
 import { useAppDispatch } from '../../hooks';

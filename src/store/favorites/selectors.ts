@@ -22,6 +22,6 @@ export const selectGroupedOffers = createSelector(getFavorites, (offers) =>
 
 export const getFavoritesStatus = createSelector([getStatus], (status) => ({
   isSuccess: status === FetchStatus.Success,
-  isLoading: status === FetchStatus.Loading || status === FetchStatus.Idle,
+  isLoading: status === FetchStatus.Loading,
   isError: status === FetchStatus.Failed,
 }));
