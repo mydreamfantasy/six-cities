@@ -22,4 +22,10 @@ export type Offer = {
   rating: number;
   title: string;
   type: string;
+  isFavorite: boolean;
+};
+
+export type FavoritePayload = {
+  id: number;
+  status: number;
 };

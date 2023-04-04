@@ -106,7 +106,7 @@ const LoginForm: React.FC = () => {
       <button
         className="login__submit form__submit button"
         type="submit"
-        disabled={!handleSubmit || isLoading}
+        disabled={isLoading}
       >
         {isLoading ? <LoadingScreen type="small" /> : 'Sign in'}
       </button>

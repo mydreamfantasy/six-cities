@@ -4,37 +4,61 @@ import Badge from '../../components/badge/badge';
 import Bookmark from '../../components/bookmark/bookmark';
 import Layout from '../../components/layout/layout';
 import ListOffers from '../../components/list-offers/list-offers';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 import Map from '../../components/map/map';
 import PropertyImage from '../../components/property-image/property-image';
 import PropertyItem from '../../components/property-item/property-item';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
-import { COUNT_NEAR_OFFER } from '../../const/const';
+import {
+  AuthorizationStatus,
+  COUNT_NEAR_OFFER,
+  MAX_PHOTOS,
+} from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { reviews } from '../../mocks/reviews';
-import { fetchOffersAction } from '../../store/api-actions';
-import { getOffers } from '../../store/offers/selectors';
-import { Offer } from '../../types/offer';
+import {
+  fetchCommentsAction,
+  fetchNearbyAction,
+  fetchPropertyOfferAction,
+  changeFavoriteAction,
+} from '../../store/api-actions';
+import { sortComments } from '../../store/comments/selectors';
+import { getNearbyOffers } from '../../store/nearby-offers/selectors';
+import {
+  getPropertyOffer,
+  getPropertyOfferStatus,
+} from '../../store/offers/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getRatingColor } from '../../utils/utils';
+import FullPageError from '../full-page-error/full-page-error';
 
 const Property: React.FC = () => {
   const { id } = useParams();
-  const [room, setRoom] = React.useState<Offer>();
-  const offers = useAppSelector(getOffers);
+
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const { isLoading, isError } = useAppSelector(getPropertyOfferStatus);
   const dispatch = useAppDispatch();
+  const statusLogOut = authorizationStatus === AuthorizationStatus.NoAuth;
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   React.useEffect(() => {
-    if (!offers.length) {
-      dispatch(fetchOffersAction());
+    if (id) {
+      dispatch(fetchCommentsAction(Number(id)));
+      dispatch(fetchNearbyAction(id));
+      dispatch(fetchPropertyOfferAction(id));
     }
-  }, [dispatch, offers]);
+  }, [id, dispatch, statusLogOut]);
 
-  React.useEffect(() => {
-    setRoom(offers.find((offer) => offer.id === Number(id)));
-  }, []);
+  const comments = useAppSelector(sortComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const room = useAppSelector(getPropertyOffer);
 
-  if (!room) {
-    return <>Загрузка...</>;
+  if (isLoading || !room) {
+    return <LoadingScreen type="big" />;
+  }
+
+  if (isError) {
+    return <FullPageError />;
   }
 
   const cityLocation = room.city;
@@ -49,11 +73,20 @@ const Property: React.FC = () => {
     price,
     goods,
     host,
+    isFavorite,
   } = room;
-
   const { avatarUrl, name, isPro } = host;
 
-  const nearOffers = [...offers.slice(0, COUNT_NEAR_OFFER), room];
+  const nearOffers = [...nearbyOffers.slice(0, COUNT_NEAR_OFFER), room];
+
+  const onFavoriteClick = () => {
+    dispatch(
+      changeFavoriteAction({
+        id: Number(id),
+        status: Number(!isFavorite),
+      })
+    );
+  };
 
   return (
     <Layout pageTitle="Property">
@@ -61,7 +94,7 @@ const Property: React.FC = () => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((img) => (
+              {images.slice(0, MAX_PHOTOS).map((img) => (
                 <PropertyImage key={img} img={img} />
               ))}
             </div>
@@ -73,9 +106,11 @@ const Property: React.FC = () => {
                 <h1 className="property__name">{title}</h1>
 
                 <Bookmark
-                  className="property__bookmark-button"
+                  className="property"
                   type="room"
                   classNameSVG="property__bookmark-icon"
+                  isActive={isFavorite}
+                  onClick={onFavoriteClick}
                 />
               </div>
               <div className="property__rating rating">
@@ -141,10 +176,10 @@ const Property: React.FC = () => {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">{reviews.length}</span>
+                  <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewList />
-                <ReviewForm />
+                <ReviewList comments={comments} />
+                {isAuth && <ReviewForm />}
               </section>
             </div>
           </div>
@@ -153,6 +188,7 @@ const Property: React.FC = () => {
             city={cityLocation}
             offers={nearOffers}
             selectedOfferId={room.id}
+            height="560px"
           />
         </section>
         <div className="container">
@@ -161,7 +197,7 @@ const Property: React.FC = () => {
               Other places in the neighbourhood
             </h2>
             <ListOffers
-              offers={offers.slice(0, COUNT_NEAR_OFFER)}
+              offers={nearbyOffers}
               cardType="property"
               classNames="near-places__list"
             />

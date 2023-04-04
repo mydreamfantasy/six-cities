@@ -6,6 +6,8 @@ import { Offer } from '../../types/offer';
 import ImagePlace from '../image-place/image-place';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
+import { useAppDispatch } from '../../hooks';
+import { changeFavoriteAction } from '../../store/api-actions';
 
 type CardProps = {
   offer: Offer;
@@ -40,11 +42,21 @@ const Card: React.FC<CardProps> = ({
   onMouseLeave,
   cardType,
 }) => {
-  const { price, previewImage, title, type, isPremium, rating, id } = offer;
+  const {
+    price,
+    previewImage,
+    title,
+    type,
+    isPremium,
+    rating,
+    id,
+    isFavorite,
+  } = offer;
 
   const link = generatePath(AppRoute.Property, {
     id: `${id}`,
   });
+  const dispatch = useAppDispatch();
 
   const { article, image, cardInfo } = cardClassnames[cardType];
   const typePlace = type.replace(type[0], type[0].toUpperCase());
@@ -71,9 +83,18 @@ const Card: React.FC<CardProps> = ({
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <Bookmark
-            className="place-card__bookmark-button"
+            className="place-card"
             type="card"
             classNameSVG="place-card__bookmark-icon"
+            isActive={isFavorite}
+            onClick={() => {
+              dispatch(
+                changeFavoriteAction({
+                  id,
+                  status: Number(!isFavorite),
+                })
+              );
+            }}
           />
         </div>
         <div className="place-card__rating rating">

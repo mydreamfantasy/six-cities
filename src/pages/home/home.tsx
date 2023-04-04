@@ -10,9 +10,10 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import { getOffers, getOffersStatus } from '../../store/offers/selectors';
 import { fetchOffersAction } from '../../store/api-actions';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
-import FullpageError from '../fullpage-error/fullpage-error';
 import { getCity, getSortType } from '../../store/app-slice/selectors';
 import { changeCity } from '../../store/app-slice/app';
+import FullPageError from '../full-page-error/full-page-error';
+
 const Home: React.FC = () => {
   const [selectedOfferId, setSelectedOfferId] = React.useState<number | null>(
     null
@@ -45,7 +46,7 @@ const Home: React.FC = () => {
   }
 
   if (status.isError) {
-    return <FullpageError />;
+    return <FullPageError />;
   }
 
   return (
@@ -77,6 +78,7 @@ const Home: React.FC = () => {
                   city={sortingOffers[0].city}
                   offers={sortingOffers}
                   selectedOfferId={selectedOfferId}
+                  height="100%"
                 />
               </div>
             </div>
