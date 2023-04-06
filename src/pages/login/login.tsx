@@ -17,8 +17,10 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    navigate(AppRoute.Root);
-  }, [isAuth]);
+    if (isAuth) {
+      navigate(AppRoute.Root);
+    }
+  }, [statusAuth]);
 
   return (
     <Layout className="page--gray page--login" hasNav={false} pageTitle="Login">
