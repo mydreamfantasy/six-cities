@@ -17,7 +17,6 @@ import {
 } from './api-actions';
 import { State } from '../types/state';
 import { AuthData } from '../types/auth-data';
-// import { makeFakeGenreQuestion, makeFakeArtistQuestion } from "../utils/mocks";
 import { redirectToRoute } from './action';
 import { APIRoute } from '../const/const';
 import { datatype } from 'faker';
@@ -35,8 +34,8 @@ const offers = Array.from({ length: datatype.number(10) }, () =>
 );
 const offer = makeFakeOffer();
 const id = String(datatype.number(100));
-const numberId = datatype.number(100);
-const status = Number(() => Math.random() >= 0.5);
+const randomNumber = () => Math.random() >= 0.5;
+const status = Number(randomNumber());
 const reviews = makeFakeReviews();
 const postReview = makeFakeReviewPayload();
 const user = makeFakeUserData();
@@ -116,6 +115,7 @@ describe('Async actions', () => {
 
     expect(actions).toEqual([
       checkAuthAction.pending.type,
+      fetchFavoritesAction.pending.type,
       checkAuthAction.fulfilled.type,
     ]);
   });
@@ -134,7 +134,7 @@ describe('Async actions', () => {
 
     expect(actions).toEqual([
       loginAction.pending.type,
-
+      fetchFavoritesAction.pending.type,
       redirectToRoute.type,
       loginAction.fulfilled.type,
     ]);
@@ -168,7 +168,7 @@ describe('Async actions', () => {
 
     expect(store.getActions()).toEqual([]);
 
-    await store.dispatch(changeFavoriteAction({ id: numberId, status }));
+    await store.dispatch(changeFavoriteAction({ id: Number(id), status }));
 
     const actions = store.getActions().map(({ type }) => type);
 
@@ -184,10 +184,10 @@ describe('Async actions', () => {
 
   it('should fetch reviews action when server returns 200', async () => {
     const store = mockStore();
-    mockAPI.onGet(`${APIRoute.Comments}/${numberId}`).reply(200, reviews);
+    mockAPI.onGet(`${APIRoute.Comments}/${id}`).reply(200, reviews);
 
     expect(store.getActions()).toEqual([]);
-    await store.dispatch(fetchCommentsAction(numberId));
+    await store.dispatch(fetchCommentsAction(Number(id)));
     const actions = store.getActions().map(({ type }) => type);
     expect(actions).toEqual([
       fetchCommentsAction.pending.type,
@@ -209,6 +209,7 @@ describe('Async actions', () => {
       postCommentAction.fulfilled.type,
       pushNotification.type,
       fetchCommentsAction.rejected.type,
+      postCommentAction.rejected.type,
     ]);
   });
 
