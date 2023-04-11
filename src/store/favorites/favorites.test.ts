@@ -73,7 +73,7 @@ describe('Reducer: nearbyOffersData', () => {
         })
       ).toEqual({
         ...initialState,
-        favorites: favorite,
+        favorites: [favorite],
         changeFavoriteStatus: FetchStatus.Success,
       });
     });

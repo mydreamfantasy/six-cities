@@ -1,5 +1,6 @@
 import { datatype, internet, name, system } from 'faker';
 import { CITIES } from '../const/const';
+import { INotification } from '../types/notification';
 import { City, Offer } from '../types/offer';
 import { CreateReviewPayload, Review } from '../types/review';
 import { UserData } from '../types/user-data';
@@ -70,4 +71,10 @@ export const makeFakeCity = (): City => ({
     zoom: datatype.number(10),
   },
   name: CITIES[Math.floor(Math.random() * CITIES.length)],
+});
+
+export const makeFakeNotification = (): INotification => ({
+  type: 'error',
+  id: String(datatype.number(10)),
+  message: datatype.string(),
 });

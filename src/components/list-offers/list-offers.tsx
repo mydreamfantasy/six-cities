@@ -16,27 +16,17 @@ const ListOffers: React.FC<ListOffersProps> = ({
   onListItemHover,
   cardType,
   classNames,
-}) => {
-  const handleMouseEnter = React.useCallback(
-    (id: number) => onListItemHover?.(id),
-    []
-  );
+}) => (
+  <div className={cn('places__list', classNames)}>
+    {offers.map((offer) => (
+      <Card
+        key={offer.id}
+        offer={offer}
+        cardType={cardType}
+        onCardHover={onListItemHover}
+      />
+    ))}
+  </div>
+);
 
-  const handleMouseLeave = React.useCallback(() => onListItemHover?.(null), []);
-
-  return (
-    <div className={cn('places__list', classNames)}>
-      {offers.map((offer) => (
-        <Card
-          key={offer.id}
-          offer={offer}
-          cardType={cardType}
-          onMouseEnter={() => handleMouseEnter(offer.id)}
-          onMouseLeave={handleMouseLeave}
-        />
-      ))}
-    </div>
-  );
-};
-
-export default ListOffers;
+export default React.memo(ListOffers);
