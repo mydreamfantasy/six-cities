@@ -46,7 +46,7 @@ export const makeFakeOffer = (): Offer => ({
   },
   maxAdults: datatype.number(100),
   type: datatype.string(),
-  isFavorite: datatype.boolean(),
+  isFavorite: true,
 });
 
 export const makeFakeReviews = (): Review[] =>

@@ -27,15 +27,13 @@ import {
   makeFakeUserData,
 } from '../mocks/mocks';
 import { AUTH_TOKEN_KEY_NAME } from '../services/token';
-import { pushNotification } from './notification/notification';
 
 const offers = Array.from({ length: datatype.number(10) }, () =>
   makeFakeOffer()
 );
 const offer = makeFakeOffer();
-const id = String(datatype.number(100));
-const randomNumber = () => Math.random() >= 0.5;
-const status = Number(randomNumber());
+const id = 1;
+const status = 1;
 const reviews = makeFakeReviews();
 const postReview = makeFakeReviewPayload();
 const user = makeFakeUserData();
@@ -175,8 +173,6 @@ describe('Async actions', () => {
     expect(actions).toEqual([
       changeFavoriteAction.pending.type,
       changeFavoriteAction.fulfilled.type,
-      pushNotification.type,
-      changeFavoriteAction.rejected.type,
     ]);
   });
 
@@ -184,7 +180,7 @@ describe('Async actions', () => {
 
   it('should fetch reviews action when server returns 200', async () => {
     const store = mockStore();
-    mockAPI.onGet(`${APIRoute.Comments}/${id}`).reply(200, reviews);
+    mockAPI.onGet(`${APIRoute.Comments}${id}`).reply(200, reviews);
 
     expect(store.getActions()).toEqual([]);
     await store.dispatch(fetchCommentsAction(Number(id)));
@@ -192,14 +188,12 @@ describe('Async actions', () => {
     expect(actions).toEqual([
       fetchCommentsAction.pending.type,
       fetchCommentsAction.fulfilled.type,
-      pushNotification.type,
-      fetchCommentsAction.rejected.type,
     ]);
   });
 
   it('should post review action when server returns 200', async () => {
     const store = mockStore();
-    mockAPI.onPost(`${APIRoute.Comments}/${postReview.id}`).reply(200, reviews);
+    mockAPI.onPost(`${APIRoute.Comments}${postReview.id}`).reply(200, reviews);
 
     expect(store.getActions()).toEqual([]);
     await store.dispatch(postCommentAction(postReview));
@@ -207,9 +201,6 @@ describe('Async actions', () => {
     expect(actions).toEqual([
       postCommentAction.pending.type,
       postCommentAction.fulfilled.type,
-      pushNotification.type,
-      fetchCommentsAction.rejected.type,
-      postCommentAction.rejected.type,
     ]);
   });
 
