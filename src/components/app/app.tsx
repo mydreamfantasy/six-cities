@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-
 import Home from '../../pages/home/home';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
@@ -11,8 +10,7 @@ import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import HistoryRouter from '../history-router/history-router';
-import browserHistory from '../../browser-history';
+
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { checkAuthAction } from '../../store/api-actions';
 
@@ -31,24 +29,22 @@ const App: React.FC = () => {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route path={AppRoute.Root} element={<Home />} />
-          <Route path={AppRoute.Login} element={<Login />} />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute authorizationStatus={authorizationStatus}>
-                <Suspense fallback={<LoadingScreen type="big" />}>
-                  <Favorites />
-                </Suspense>
-              </PrivateRoute>
-            }
-          />
-          <Route path={AppRoute.Property} element={<Property />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </HistoryRouter>
+      <Routes>
+        <Route path={AppRoute.Root} element={<Home />} />
+        <Route path={AppRoute.Login} element={<Login />} />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute authorizationStatus={authorizationStatus}>
+              <Suspense fallback={<LoadingScreen type="big" />}>
+                <Favorites />
+              </Suspense>
+            </PrivateRoute>
+          }
+        />
+        <Route path={AppRoute.Property} element={<Property />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </HelmetProvider>
   );
 };

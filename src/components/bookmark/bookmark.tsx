@@ -57,6 +57,7 @@ const Bookmark: React.FC<BookmarkProps> = ({
         }
       }}
       disabled={!!status.isLoading}
+      data-testid="bookmark"
     >
       <svg className={cn(classNameSVG)} width={size.width} height={size.height}>
         <use xlinkHref="#icon-bookmark"></use>
