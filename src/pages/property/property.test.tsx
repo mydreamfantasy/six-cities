@@ -28,8 +28,6 @@ const fakeStore = {
     fetchStatus: FetchStatus.Success,
   },
   [NameSpace.Offers]: {
-    offers: fakeOffers,
-    offersStatus: FetchStatus.Success,
     offer: [],
     offerStatus: FetchStatus.Idle,
   },

@@ -5,13 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  AuthorizationStatus,
-  CITIES,
-  FetchStatus,
-  NameSpace,
-  SortingTypes,
-} from '../../const/const';
+import { AuthorizationStatus, FetchStatus, NameSpace } from '../../const/const';
 import { makeFakeOffers, makeFakeUserData } from '../../mocks/mocks';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/state';
@@ -34,18 +28,10 @@ const fakeStore = {
     info: fakeUserData,
     fetchStatus: FetchStatus.Success,
   },
-  [NameSpace.Offers]: {
-    offers: fakeOffers,
-    offersStatus: FetchStatus.Success,
-  },
   [NameSpace.Favorite]: {
     favorites: [],
     favoritesStatus: FetchStatus.Success,
     changeFavoriteStatus: FetchStatus.Idle,
-  },
-  [NameSpace.App]: {
-    city: CITIES[0],
-    sortName: SortingTypes[0],
   },
 };
 

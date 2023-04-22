@@ -1,51 +1,45 @@
 import { Route, Routes } from 'react-router-dom';
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import Home from '../../pages/home/home';
-import Favorites from '../../pages/favorites/favorites';
-import Login from '../../pages/login/login';
-import Property from '../../pages/property/property';
-import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute, AuthorizationStatus } from '../../const/const';
+import { AppRoute } from '../../const/const';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
+import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { checkAuthAction } from '../../store/api-actions';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const App: React.FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const dispatch = useAppDispatch();
-  const isLoading = authorizationStatus === AuthorizationStatus.Unknown;
 
-  React.useEffect(() => {
-    dispatch(checkAuthAction());
-  }, [dispatch]);
-
-  if (isLoading) {
-    return <LoadingScreen type="big" />;
-  }
+  const Favorites = lazy(() => import('../../pages/favorites/favorites'));
+  const Login = lazy(() => import('../../pages/login/login'));
+  const Property = lazy(() => import('../../pages/property/property'));
+  const NotFound = lazy(() => import('../../pages/not-found/not-found'));
 
   return (
-    <HelmetProvider>
-      <Routes>
-        <Route path={AppRoute.Root} element={<Home />} />
-        <Route path={AppRoute.Login} element={<Login />} />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Suspense fallback={<LoadingScreen type="big" />}>
-                <Favorites />
-              </Suspense>
-            </PrivateRoute>
-          }
-        />
-        <Route path={AppRoute.Property} element={<Property />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </HelmetProvider>
+    <ErrorBoundary fallback={<div>Something wrong</div>}>
+      <Suspense fallback={<LoadingScreen type="big" />}>
+        <HelmetProvider>
+          <Routes>
+            <Route path={AppRoute.Root} element={<Home />} />
+            <Route path={AppRoute.Login} element={<Login />} />
+            <Route
+              path={AppRoute.Favorites}
+              element={
+                <PrivateRoute authorizationStatus={authorizationStatus}>
+                  <Suspense fallback={<LoadingScreen type="big" />}>
+                    <Favorites />
+                  </Suspense>
+                </PrivateRoute>
+              }
+            />
+            <Route path={AppRoute.Property} element={<Property />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </HelmetProvider>
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 

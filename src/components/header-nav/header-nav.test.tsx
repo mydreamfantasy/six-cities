@@ -10,9 +10,8 @@ import {
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import HeaderNav from './header-nav';
-import { makeFakeOffers, makeFakeUserData } from '../../mocks/mocks';
+import { makeFakeUserData } from '../../mocks/mocks';
 
-const fakeOffers = makeFakeOffers();
 const fakeUserData = makeFakeUserData();
 const mockStore = configureMockStore();
 
@@ -21,10 +20,6 @@ const fakeStore = {
     authorizationStatus: AuthorizationStatus.NoAuth,
     info: null,
     fetchStatus: FetchStatus.Success,
-  },
-  [NameSpace.Offers]: {
-    offers: fakeOffers,
-    offersStatus: FetchStatus.Success,
   },
   [NameSpace.Favorite]: {
     favorites: [],

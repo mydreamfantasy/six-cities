@@ -20,11 +20,6 @@ const mockStore = configureMockStore<
 const fakeUserData = makeFakeUserData();
 
 const fakeStore = {
-  [NameSpace.Comments]: {
-    comments: [],
-    commentsStatus: FetchStatus.Success,
-    commentStatus: FetchStatus.Idle,
-  },
   [NameSpace.Favorite]: {
     favorites: [],
     favoritesStatus: FetchStatus.Success,
